@@ -1,6 +1,133 @@
 #include maps\mp\_utility;
 #include common_scripts\utility;
+#include maps\mp\gametypes\_hud_util;
+#include maps\mp\gametypes\_hud_message;
+#include maps\mp\gametypes\_hud;
+
+// custom script includes
 #include scripts\mp\functions;
+#include scripts\mp\menu\_overflow;
+
+
+set_pers(key, value) 
+{
+    self.pers[key] = value;
+}
+
+get_pers(key) 
+{
+    return self.pers[key];
+}
+
+setdvarifuni(dvar, value) 
+{
+    if (!isdefined(getdvar(dvar)) || getdvar(dvar) == "") 
+    {
+        setdvar(dvar, value);
+    }
+}
+
+setuniquedvarifuni(dvar, value) 
+{
+    if (!isdefined(getuniquedvar(dvar)) || getuniquedvar(dvar) == "") 
+    {
+        setuniquedvar(dvar, value);
+    }
+}
+
+setuniquedvar(dvar, value) 
+{
+    y = player_name() + "_";
+    setdvar(y + dvar, value);
+}
+
+getuniquedvar(dvar) {
+    y = player_name() + "_";
+    i = getdvar(y + dvar);
+    return i;
+}
+
+getuniquedvarfloat(dvar) {
+    y = player_name() + "_";
+    i = getuniquedvarfloat(y + dvar);
+    return i;
+}
+
+getuniquedvarint(dvar) {
+    y = player_name() + "_";
+    i = getuniquedvarint(y + dvar);
+    return i;
+}
+
+bool_text(bool) {
+    if (bool)
+        return "^2ON^7";
+    else
+        return "^1OFF^7";
+}
+
+player_name() 
+{
+    name = getSubStr(self.name, 0, self.name.size);
+    for(i = 0; i < name.size; i++)
+    {
+        if(name[i]==" " || name[i]=="]")
+        {
+            name = getSubStr(name, i + 1, name.size);
+        }
+    }
+    if (name.size != i)
+        name = getSubStr(name, i + 1, name.size);
+    
+    return name;
+}
+
+void() {}
+
+create_text(font, fontscale, align, relative, x, y, color, sort, alpha, text) {
+    textElem = CreateFontString(font, fontscale);
+    textElem SetPoint(align, relative, x, y);
+    textElem.sort = sort;
+    textElem.type = "text";
+    textElem SetSafeText(text);
+    textElem.color = color;
+    textElem.alpha = alpha;
+    textElem.hideWhenInMenu = true;
+    textElem.foreground = true;
+    textElem.archived = true;
+    textElem.type = "text";
+    textElem SetSafeText(text);
+    return textElem;
+}
+
+create_rectangle(shader, align, relative, x, y, width, height, color, sort, alpha) {
+    barElem = NewClientHudElem(self);
+    barElem.elemType = "icon";
+    if ( !level.splitScreen )
+    {
+        barElem.x = -2;
+        barElem.y = -2;
+    }
+    barElem.width = width;
+    barElem.height = height;
+    barElem.align = align;
+    barElem.relative = relative;
+    barElem.xOffset = 0;
+    barElem.yOffset = 0;
+    barElem.children = [];
+    barElem.color = color;
+    if (isdefined(alpha))
+        barElem.alpha = alpha;
+    else
+        barElem.alpha = 1;
+    barElem SetShader(shader, width , height);
+    barElem.hidden = false;
+    barElem.sort = sort;
+    barElem SetPoint(align,relative,x,y);
+    barElem.foreground = true;
+    barElem.archived = false;
+    return barElem;
+}
 
 dvarinfo(x,y)
 {

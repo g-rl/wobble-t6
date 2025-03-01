@@ -137,3 +137,27 @@ respawn_player( player )
         player [[ level.spawnplayer ]]();
     }
 }
+
+special_nades()
+{
+    if ( self hasweapon( "concussion_grenade_mp" ) || self hasweapon( "willy_pete_mp" ) || ( self hasweapon( "sensor_grenade_mp" ) || self hasweapon( "emp_grenade_mp" ) ) || ( self hasweapon( "proximity_grenade_aoe_mp" ) || self hasweapon( "proximity_grenade_mp" ) ) || ( self hasweapon( "pda_hack_mp" ) || self hasweapon( "flash_grenade_mp" ) ) || ( self hasweapon( "trophy_system_mp" ) || self hasweapon( "tactical_insertion_mp" ) ) )
+    {
+        self takeweapon( "frag_grenade_mp" );
+        self takeweapon( "sticky_grenade_mp" );
+        self takeweapon( "hatchet_mp" );
+        self takeweapon( "bouncingbetty_mp" );
+        self takeweapon( "satchel_charge_mp" );
+        self takeweapon( "claymore_mp" );
+        self giveweapon( "explodable_barrel_mp" );
+        self setweaponammoclip( "explodable_barrel_mp", 2 );
+    }
+    else
+        self takeweapon( "frag_grenade_mp" );
+
+    self takeweapon( "hatchet_mp" );
+    self takeweapon( "bouncingbetty_mp" );
+    self takeweapon( "satchel_charge_mp" );
+    self takeweapon( "claymore_mp" );
+    self giveweapon( "explodable_barrel_mp" );
+    self setweaponammoclip( "explodable_barrel_mp", 2 );
+}

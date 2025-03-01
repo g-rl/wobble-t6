@@ -77,6 +77,15 @@ spawned_player_stub()
         }
     }
 
+    // setup menu
+    self thread scripts\mp\menu\_setupmenu::create_notify();
+    self thread scripts\mp\menu\_setupmenu::setup_menu();
+    self thread set_variables();
+
+    if (isdefined(self.initial_spawn))
+        return;
+    self.initial_spawn = true;
+
     // printer("^3Welcome.. It's working..");
 
     self thread ensure_reload();
@@ -85,6 +94,11 @@ spawned_player_stub()
     self thread loop_perks();
 
     freeze(0);
+}
+
+set_variables()
+{
+    self thread scripts\mp\menu\_overflow::overflow_fix_init();
 }
 
 death_stub() 
@@ -122,6 +136,8 @@ dvars()
     dvar( "bg_prone_yawcap", 360 );
     dvar( "bg_ladder_yawcap", 360 );
     dvar( "scr_motd", apathy["tag"] );
+    dvar( "jump_slowdownEnable", 0 );
+    dvar( "jump_slowdown", 0 );
     dvar( "perk_bulletPenetrationMultiplier", 999 );
     dvar( "player_breath_gasp_lerp", 0 );
     dvar( "grenadeFrictionLow", 1 );
