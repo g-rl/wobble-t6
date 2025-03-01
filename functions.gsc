@@ -4,7 +4,7 @@
 
 spawn_enemy()
 {
-    if(getDvarInt("spawned_bots") == 0)
+    if (getDvarInt("spawned_bots") == 0)
     {
         wait 1;
         self thread maps\mp\bots\_bot::spawn_bot( "autoassign" );
@@ -42,7 +42,7 @@ ensure_reload()
 
 vsat()
 {
-    if(!level.hardcoremode)
+    if (!level.hardcoremode)
         self maps\mp\killstreaks\_spyplane::addactivesatellite();
 }
 
@@ -56,7 +56,7 @@ infinite_eq()
         wait 3;
         offhand = self getCurrentOffhand();
 
-        if(offhand != "none")
+        if (offhand != "none")
         {
             self giveMaxAmmo(offhand);
         }

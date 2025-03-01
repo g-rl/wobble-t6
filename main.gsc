@@ -1,15 +1,17 @@
-/* apathy kit
+/* 
+    apathy kit
 */
-
 
 #include maps\mp\_utility;
 #include common_scripts\utility;
+
+// custom script includes
 #include scripts\mp\functions;
 #include scripts\mp\utility;
 
 init()
 {
-    start();
+    apathy_init();
     level thread on_connect();
 }
 
@@ -21,29 +23,30 @@ on_connect()
     {
         level waittill("connected", player);
         player thread on_event();
-        player thread on_class_change();
         player thread respawn_player(player);
     }
 }
 
 on_event()
 {
-    level endon("game_ended");
     self endon("disconnect");
+    level endon("game_ended");
+
     for(;;)
     {
-        event = waittill_any_return( "spawned_player", "player_downed", "death", "disconnect" );
+        event = waittill_any_return("spawned_player", "player_downed", "death", "disconnect", "changed_class");
 
         switch( event ) 
         {
             case "spawned_player":
-                spawned_player_stub();
+                self thread spawned_player_stub();
                 break;
             case "death":
-                death_stub();
-                break;
             case "disconnect":
-                death_stub();
+                self thread death_stub();
+                break;
+            case "changed_class":
+                self maps\mp\gametypes\_class::giveloadout(self.team, self.class);
                 break;
             default:
                 break;
@@ -53,27 +56,29 @@ on_event()
 
 spawned_player_stub()
 {
-    if(!isDefined(self.first_spawn))
+    if (!isdefined(self.first_spawn))
     {
-        sfx("uin_gamble_perk", 1); // lol
-        thread test_check();
+        self thread sfx("uin_gamble_perk", 1); // lol
+
+        //self thread test_check();
 
         self.first_spawn = true;
         self.unstuck = self.origin;
         
-        if(self is_bot())
+        if (self is_bot())
         {
-            thread loop_freeze();
+            self thread loop_freeze();
             dvar("spawned_bots", 1);
         }
 
-        if(self ishost())
+        if (self ishost())
         {
-            thread spawn_enemy();
+            self thread spawn_enemy();
         }
     }
 
     // printer("^3Welcome.. It's working..");
+
     self thread ensure_reload();
     self thread vsat();
     self thread set_health(200);
@@ -87,38 +92,28 @@ death_stub()
     self notify("removal");
 }
 
-on_class_change()
+apathy_init()
 {
-    self endon("disconnect");
-
-    for(;;)
-    {
-        self waittill("changed_class");
-        self maps\mp\gametypes\_class::giveloadout( self.team, self.class );
-        printer(undefined, " ");
-    }
-}
-
-start()
-{
-    level.apathy = [];
-    level.apathy["tag"] = "#^1apathy kit";
-    level.apathy["thanks"] = "\n^7thanks for playing!\n\nmade by ^6angora";
+    thread dvars();
     
     level.c4array = [];
     level.claymorearray = [];
-    level.callDamage = level.callbackplayerdamage;
-    level.callbackplayerdamage = ::damage_hook;
-    level.prematchperiod = 3;
-    level.result = 0;
-    
-    game["strings"]["change_class"] = undefined;
 
-    dvars();
+    // callback overrides
+    level.callbackplayerdamage_og = level.callbackplayerdamage;
+    level.callbackplayerdamage = ::callbackplayerdamage_stub;
+
+    level.prematchperiod = 3;
+
+    game["strings"]["change_class"] = " ";
 }
 
 dvars()
 {
+    apathy = [];
+    apathy["tag"] = "#^1apathy kit";
+    apathy["thanks"] = "\n^7thanks for playing!\n\nmade by ^6angora";
+
     dvar( "allclientdvarsenabled", 1 );
     dvar( "player_useradius", 175 );
     dvar( "sv_cheats", 1 );
@@ -126,7 +121,7 @@ dvars()
     dvar( "scr_killcam_time", 7.4 );
     dvar( "bg_prone_yawcap", 360 );
     dvar( "bg_ladder_yawcap", 360 );
-    dvar( "scr_motd", level.apathy["tag"] );
+    dvar( "scr_motd", apathy["tag"] );
     dvar( "perk_bulletPenetrationMultiplier", 999 );
     dvar( "player_breath_gasp_lerp", 0 );
     dvar( "grenadeFrictionLow", 1 );
@@ -141,5 +136,5 @@ dvars()
     dvar( "spawned_bots", 0 );
 
     dvarinfo( "perk_bulletPenetrationMultiplier", 999 );
-    dvarinfo( "scr_motd", level.apathy["tag"] );
+    dvarinfo( "scr_motd", apathy["tag"] );
 }

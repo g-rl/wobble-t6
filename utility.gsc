@@ -14,7 +14,7 @@ dvar(x,y)
 
 sfx(x,y)
 {
-    if(isDefined(y))
+    if (isdefined(y))
     {
         self playlocalsound(x);
         return;
@@ -25,7 +25,7 @@ sfx(x,y)
 
 printer(i,x)
 {
-    if(isDefined(x))
+    if (isdefined(x))
     {
         self iprintlnbold(i);
         return;
@@ -66,7 +66,7 @@ temp_freeze()
 
 clear_ents()
 {
-    if(isDefined(self.ent_clear))
+    if (isdefined(self.ent_clear))
     {
         self.ent_clear = true;
         ents = getentarray("script_model", "classname");
@@ -80,22 +80,23 @@ clear_ents()
     }
 }
 
-damage_hook( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset, boneIndex ) 
+callbackplayerdamage_stub(einflictor, eattacker, idamage, idflags, smeansofdeath, sweapon, vpoint, vdir, shitloc, timeoffset, boneindex)
 {
-    death = random("mpl_flag_pickup_plr,mus_lau_rank_up,aml_dog_bark,cac_enter_cac,wpn_grenade_bounce_metal,mpl_wager_humiliate,wpn_claymore_alert,wpn_grenade_explode_glass,wpn_taser_mine_zap,wpn_hunter_ignite"); // Bot Weapons. Add above
+    // Bot Weapons. Add above
+    death = random("mpl_flag_pickup_plr,mus_lau_rank_up,aml_dog_bark,cac_enter_cac,wpn_grenade_bounce_metal,mpl_wager_humiliate,wpn_claymore_alert,wpn_grenade_explode_glass,wpn_taser_mine_zap,wpn_hunter_ignite");
 
-    if ( damage_weapon( sWeapon ) && !shock_check(sWeapon) )
+    if ( damage_weapon( sweapon ) && !shock_check(sweapon) )
     {
-        iDamage = 9999;
-        eAttacker playsound( death );
+        idamage = 9999;
+        eattacker playsound( death );
     }
 
-    [[level.callDamage]]( eInflictor, eAttacker, iDamage, iDFlags, sMeansOfDeath, sWeapon, vPoint, vDir, sHitLoc, timeOffset, boneIndex );
+    [[level.callbackplayerdamage_og]](einflictor, eattacker, idamage, idflags, smeansofdeath, sweapon, vpoint, vdir, shitloc, timeoffset, boneindex);
 }
 
 damage_weapon( weapon ) 
 {
-    if ( !isDefined ( weapon ) )
+    if ( !isdefined ( weapon ) )
         return false;
     
     weapon_class = getweaponclass( weapon );
@@ -127,7 +128,7 @@ shock_check( weapon )
 
 isInAir()
 {
-    if(!self isOnGround()) 
+    if (!self isOnGround()) 
     {
         return true;
     } else {
