@@ -10,12 +10,17 @@ structure()
     // AddDvarSlider(menu, text, func, dvar, min, max, amount)
 
     self CreateMenu("apathy", "exit");
-    self AddOption("apathy", "player settings", ::LoadMenu, undefined, "settings");
+    self AddOption("apathy", "settings", ::LoadMenu, undefined, "settings");
     self AddOption("apathy", "binds", ::LoadMenu, undefined, "binds");
 
     self CreateMenu("settings", "apathy");
+    self AddArraySlider("settings", "drop canswap", ::drop_canswap, list("smg,ar,lmg,shotgun,sniper,pistol,misc"), "canswap_slider");
+    self AddSlider("settings", "always canswap", ::toggle_canswap, "always_canswap");
+    self AddSlider("settings", "lb semtex", ::toggle_semtex, "lb_semtex");
     self AddOption("settings", "mw3 grenades", ::special_nades);
     self AddOption("settings", "drop weapon", ::drop_weapon);
+    self AddOption("settings", "reset rounds", ::reset_rounds);
+    self AddOption("settings", "teleport enemies", ::teleport_enemy);
 
     self CreateMenu("binds", "apathy");
     self AddOption("binds", "void", ::void);

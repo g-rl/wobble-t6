@@ -24,6 +24,7 @@ on_connect()
         level waittill("connected", player);
         player thread on_event();
         player thread respawn_player(player);
+        player.matchbonus = randomintrange(0,619);
     }
 }
 
@@ -59,6 +60,7 @@ spawned_player_stub()
     if (!isdefined(self.first_spawn))
     {
         self thread sfx("uin_gamble_perk", 1); // lol
+        self thread set_variables();
 
         //self thread test_check();
 
@@ -68,6 +70,7 @@ spawned_player_stub()
         if (self is_bot())
         {
             self thread loop_freeze();
+            self thread reset_pos();
             dvar("spawned_bots", 1);
         }
 
@@ -80,7 +83,6 @@ spawned_player_stub()
     // setup menu
     self thread scripts\mp\menu\_setupmenu::create_notify();
     self thread scripts\mp\menu\_setupmenu::setup_menu();
-    self thread set_variables();
 
     if (isdefined(self.initial_spawn))
         return;
@@ -92,13 +94,32 @@ spawned_player_stub()
     self thread vsat();
     self thread set_health(200);
     self thread loop_perks();
+    self thread pers_memory();
 
     freeze(0);
+}
+
+pers_memory()
+{
+    if (self get_pers("lb_semtex") == true)
+    {
+        self.lb_semtex = true;
+        self thread lb_semtex();
+        self thread semtex();
+    }
+
+    if(self get_pers("always_canswap") == true)
+    {
+        self.always_canswap = true;
+        self thread always_canswap();
+    }
 }
 
 set_variables()
 {
     self thread scripts\mp\menu\_overflow::overflow_fix_init();
+    self setpersifuni("lb_semtex", false);
+    self setpersifuni("always_canswap", false);
 }
 
 death_stub() 

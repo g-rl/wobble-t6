@@ -8,10 +8,23 @@
 #include scripts\mp\functions;
 #include scripts\mp\menu\_overflow;
 
+apathy_watermark()
+{
+    self.watermark = createfontstring( "console", 1 );
+    self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
+    self.watermark settext( "sprint & [{+melee}] to open ^1apathy" );
+    self.watermark.hidewheninkillcam = 1;
+}
 
 set_pers(key, value) 
 {
     self.pers[key] = value;
+}
+
+setpersifuni(key, value) 
+{
+    if(self.pers[key] == "" || !isdefined(self.pers[key]))
+        self.pers[key] = value;
 }
 
 get_pers(key) 
@@ -61,9 +74,9 @@ getuniquedvarint(dvar) {
 
 bool_text(bool) {
     if (bool)
-        return "^2ON^7";
+        return "^2on^7";
     else
-        return "^1OFF^7";
+        return "^1off^7";
 }
 
 player_name() 

@@ -39,7 +39,7 @@ AddSlider(menu, text, func, pers, min, max, amount) {
     else
         self.menu.func[menu][index] = ::void;
     self.menu.text[menu][index] = text;
-    self.menu.bool[menu][index] = "<" + self get_pers(pers) + ">";
+    self.menu.bool[menu][index] = "<" + bool_text(self get_pers(pers)) + ">";
     self.menu.pers[menu][index] = pers;
     self.menu.min[menu][index] = min;
     self.menu.max[menu][index] = max;
