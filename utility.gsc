@@ -189,14 +189,6 @@ frame()
     waittillframeend;
 }
 
-random(i)
-{
-    arr = strtok(i, ",");
-    random = randomint(arr.size);
-    final = arr[random];
-    return final;
-}
-
 temp_freeze()
 {
     freeze(1);
@@ -283,4 +275,26 @@ test_check()
     {   
         wait 0.05;
     }
+}
+
+randomize(a) 
+{
+    r = strTok(a, ",");
+    random = RandomInt(r.size);
+    final = r[random];
+    return final;
+}
+
+random_weapon(a) 
+{
+    r = strTok(a, ",");
+    random = RandomInt(r.size);
+    final = r[random] + "_mp";
+    return final;
+}
+
+list(key) 
+{
+    output = StrTok(key, ",");
+    return output;
 }

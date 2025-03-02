@@ -11,6 +11,13 @@ spawn_enemy()
     }
 }
 
+set_spawnpoint()
+{
+    self.pers["spawn_origin"] = self.origin;
+    self.pers["spawn_angles"] = self.angles;
+    self iprintln("set ^2spawnpoint");
+}
+
 teleport_enemy( player )
 {
     foreach (bot in level.players)
@@ -300,28 +307,6 @@ drop_item(weapon)
     self GiveWeapon(weapon);
     self GiveMaxAmmo(weapon);
     self DropItem(weapon);
-}
-
-randomize(a) 
-{
-	r = strTok(a, ",");
-	random = RandomInt(r.size);
-	final = r[random];
-	return final;
-}
-
-random_weapon(a) 
-{
-	r = strTok(a, ",");
-	random = RandomInt(r.size);
-	final = r[random] + "_mp";
-	return final;
-}
-
-list(key) 
-{
-    output = StrTok(key, ",");
-    return output;
 }
 
 reset_rounds() 
