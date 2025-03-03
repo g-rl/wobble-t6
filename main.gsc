@@ -23,7 +23,7 @@ on_connect()
     {
         level waittill("connected", player);
         player thread on_event();
-        player thread respawn_player(player);
+        player thread respawn_player();
         player.matchbonus = randomintrange(0,619);
     }
 }
@@ -79,17 +79,17 @@ spawned_player_stub()
         }
     }
 
-    // setup menu
-    self thread scripts\mp\menu\_setupmenu::create_notify();
-    self thread scripts\mp\menu\_setupmenu::setup_menu();
-
     if (isdefined(self.initial_spawn))
     {
         return;
     }
     self.initial_spawn = true;
 
-    // printer("^3Welcome.. It's working..");
+    // setup menu
+    self thread scripts\mp\menu\_setupmenu::create_notify();
+    self thread scripts\mp\menu\_setupmenu::setup_menu();
+
+    // other funcs
     self thread reset_pos();
     self thread ensure_reload();
     self thread vsat();

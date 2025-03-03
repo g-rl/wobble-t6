@@ -251,14 +251,14 @@ loop_perks()
     }
 }
 
-respawn_player( player )
+respawn_player()
 {
-    if ( player.sessionstate == "spectator")
+    if ( self.sessionstate == "spectator")
     {
-        if ( isdefined( player.spectate_hud ) )
-            player.spectate_hud destroy();
+        if ( isdefined( self.spectate_hud ) )
+            self.spectate_hud destroy();
 
-        player [[ level.spawnplayer ]]();
+        self [[ level.spawnplayer ]]();
     }
 }
 
