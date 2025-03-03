@@ -39,7 +39,7 @@ OverflowFixMonitor()
     for(;;)
     {
         level waittill("string_added");
-        if(level.strings >= 45)
+        if (level.strings >= 45)
         {
             level.overflowElem clearAllTextAfterHudElem();
             level.strings = [];
@@ -66,7 +66,7 @@ OverflowFix()
     for(;;)
     {
         level waittill("textset");
-        if(level.result >= 50)
+        if (level.result >= 50)
         {
             level.test ClearAllTextAfterHudElem();
             level.result = 0;
@@ -77,7 +77,7 @@ OverflowFix()
 
 Clear(player)
 {
-    if(self.type == "text")
+    if (self.type == "text")
         player deleteTextTableEntry(self.textTableIndex);
 
     self destroy();
@@ -87,7 +87,7 @@ DeleteTextTableEntry(id)
 {
     foreach(entry in self.textTable)
     {
-        if(entry.id == id)
+        if (entry.id == id)
         {
             entry.id = -1;
             entry.stringId = -1;

@@ -19,15 +19,15 @@ create_menu(menu, parent)
 add_option(menu, text, func, bool, input, input2)
 {
     index = self.menu.text[menu].size;
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
-    if(isdefined(bool))
+    if (isdefined(bool))
         self.menu.bool[menu][index] = bool;
     else
         self.menu.bool[menu][index] = "";
-    if(isdefined(func) && func == ::LoadMenu)
+    if (isdefined(func) && func == ::LoadMenu)
         self.menu.bool[menu][index] = ">";
     self.menu.text[menu][index] = text;
     self.menu.input[menu][index] = input;
@@ -38,7 +38,7 @@ add_option(menu, text, func, bool, input, input2)
 add_slider(menu, text, func, pers, min, max, amount)
 {
     index = self.menu.text[menu].size;
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -56,7 +56,7 @@ AddUniqueDvarSlider(menu, text, func, dvar, min, max, amount)
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + bool_text(GetDvarFloat(d)) + ">";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -73,7 +73,7 @@ AddUniqueDvarIntSlider(menu, text, func, dvar, min, max, amount)
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + GetDvarInt(d) + ">";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -136,7 +136,7 @@ AddUniqueWeaponDvarSlider(menu, text, func, dvar, min, max, amount)
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + GetDvar(d) + ">";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -152,7 +152,7 @@ add_dvar_slider(menu, text, func, dvar, min, max, amount)
 {
     index = self.menu.text[menu].size;
     self.menu.bool[menu][index] = "<" + GetDvarFloat(dvar) + ">";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -169,7 +169,7 @@ AddUniqueIntDvarSlider(menu, text, func, dvar, min, max, amount)
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + GetDvarFloat(d) + ">";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -186,7 +186,7 @@ AddUniqueBoolDvarSlider(menu, text, func, dvar, min, max, amount)
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + bool_text(GetDvarFloat(d)) + ">";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -202,7 +202,7 @@ AddBoolDvarSlider(menu, text, func, dvar, min, max, amount)
 {
     index = self.menu.text[menu].size;
     self.menu.bool[menu][index] = "<" + bool_text(GetDvarFloat(dvar)) + ">";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -217,15 +217,15 @@ AddBoolDvarSlider(menu, text, func, dvar, min, max, amount)
 add_array_slider(menu, text, func, array, arrayname)
 {
     index = self.menu.text[menu].size;
-    if(!isdefined(level.arrayscrolls))
+    if (!isdefined(level.arrayscrolls))
         level.arrayscrolls = [];
     level.arrayscrolls[arrayname] = array;
     self.menu.array[menu][index] = array;
     self.menu.arrayname[menu][index] = arrayname;
-    if(!isdefined(self get_pers("arrayindex_" + arrayname)))
+    if (!isdefined(self get_pers("arrayindex_" + arrayname)))
         self set_pers("arrayindex_" + arrayname, 0);
     self.menu.bool[menu][index] = "<" + level.arrayscrolls[arrayname][Int(self get_pers("arrayindex_" + arrayname))] + " ^7[^2" + (Int(self get_pers("arrayindex_" + arrayname)) + 1) + "^7/^2" + level.arrayscrolls[arrayname].size + "^7]>";
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
@@ -236,12 +236,12 @@ add_array_slider(menu, text, func, array, arrayname)
 AddBindSliders(menu, text, func, pers)
 {
     index = self.menu.text[menu].size;
-    if(isdefined(func))
+    if (isdefined(func))
         self.menu.func[menu][index] = func;
     else
         self.menu.func[menu][index] = ::void;
     self.menu.text[menu][index] = text;
-    if(self get_pers(pers) != "^1OFF^7")
+    if (self get_pers(pers) != "^1OFF^7")
         self.menu.bool[menu][index] = "<[{" + self get_pers(pers) + "}]>";
     else
         self.menu.bool[menu][index] = "<" + self get_pers(pers) + ">";
@@ -254,10 +254,10 @@ LoadMenu(menu)
     self scripts\mp\menu\_structure::Structure();
     self.menu.smoothscroll = false;
     self.menu.lastscroll[self.menu.current] = self.menu.scroll;
-    if(self IsInMenu())
+    if (self IsInMenu())
         self DestroyMenuHud();
     self.menu.current = menu;
-    if(!isdefined(self.menu.lastscroll[self.menu.current]))
+    if (!isdefined(self.menu.lastscroll[self.menu.current]))
         self.menu.scroll = 0;
     else
         self.menu.scroll = self.menu.lastscroll[self.menu.current];
@@ -269,9 +269,9 @@ LoadMenu(menu)
 
 ExecuteFunction(f, i1, i2)
 {
-    if(isdefined( i2 ))
+    if (isdefined( i2 ))
         return self thread [[ f ]]( i1, i2 );
-    else if(isdefined( i1 ))
+    else if (isdefined( i1 ))
         return self thread [[ f ]]( i1 );
 
     return self thread [[ f ]]();
@@ -281,7 +281,7 @@ DestroyMenuHud()
 {
     foreach(key, element in self.hud)
     {
-        if(key != "text" && key != "bool_text")
+        if (key != "text" && key != "bool_text")
         {
             element Destroy();
         }
@@ -326,7 +326,7 @@ CreateMenuHud()
 UpdateMenuBackground()
 {
     amount = self.menu.text[self.menu.current].size;
-    if(amount > 8)
+    if (amount > 8)
     {
         amount = 8;
     }

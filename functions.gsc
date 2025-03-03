@@ -93,7 +93,7 @@ teleport_enemy( player )
 {
     foreach (bot in level.players)
     {
-        if(self.pers["team"] != bot.pers["team"])
+        if (self.pers["team"] != bot.pers["team"])
         {
             if (isDefined(bot.pers["isBot"]) && bot.pers["isBot"])
             {
@@ -114,7 +114,7 @@ reset_pos()
         self setplayerangles(self.pers["saveangle"]);
     }
 
-    if(isDefined(self.pers["spawn_origin"]))
+    if (isDefined(self.pers["spawn_origin"]))
     {
         self setorigin(self.pers["spawn_origin"]);
         self setplayerangles(self.pers["spawn_angles"]);

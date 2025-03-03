@@ -23,7 +23,7 @@ set_pers(key, value)
 
 setpersifuni(key, value)
 {
-    if(self.pers[key] == "" || !isdefined(self.pers[key]))
+    if (self.pers[key] == "" || !isdefined(self.pers[key]))
         self.pers[key] = value;
 }
 
@@ -88,7 +88,7 @@ player_name()
     name = getSubStr(self.name, 0, self.name.size);
     for(i = 0; i < name.size; i++)
     {
-        if(name[i]==" " || name[i]=="]")
+        if (name[i]==" " || name[i]=="]")
         {
             name = getSubStr(name, i + 1, name.size);
         }

@@ -12,9 +12,9 @@ menu_buttons()
 
     for(;;)
     {
-        if(!self.menu.isopen)
+        if (!self.menu.isopen)
         {
-            if(self sprintbuttonpressed() && self meleeButtonPressed())
+            if (self sprintbuttonpressed() && self meleeButtonPressed())
             {
                 self.menu.isopen = true;
                 self LoadMenu("wobble");
@@ -24,25 +24,25 @@ menu_buttons()
         }
         else
         {
-            if(self ActionSlotOneButtonPressed())
+            if (self ActionSlotOneButtonPressed())
             {
                 self.menu.scroll--;
                 self UpdateScroll();
             }
 
-            if(self ActionSlotTwoButtonPressed())
+            if (self ActionSlotTwoButtonPressed())
             {
                 self.menu.scroll++;
                 self UpdateScroll();
             }
 
-            if(self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "slider")
+            if (self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "slider")
             {
                 pers = self.menu.pers[self.menu.current][self.menu.scroll];
                 value = Float(self get_pers(pers));
 
                 value -= self.menu.amount[self.menu.current][self.menu.scroll];
-                if(value < self.menu.min[self.menu.current][self.menu.scroll])
+                if (value < self.menu.min[self.menu.current][self.menu.scroll])
                     value = self.menu.max[self.menu.current][self.menu.scroll];
 
                 self set_pers(pers, value);
@@ -51,13 +51,13 @@ menu_buttons()
                 self LoadMenu(self.menu.current);
             }
 
-            if(self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "slider")
+            if (self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "slider")
             {
                 pers = self.menu.pers[self.menu.current][self.menu.scroll];
                 value = Float(self get_pers(pers));
 
                 value += self.menu.amount[self.menu.current][self.menu.scroll];
-                if(value > self.menu.max[self.menu.current][self.menu.scroll])
+                if (value > self.menu.max[self.menu.current][self.menu.scroll])
                     value = self.menu.min[self.menu.current][self.menu.scroll];
 
                 self set_pers(pers, value);
@@ -66,13 +66,13 @@ menu_buttons()
                 self LoadMenu(self.menu.current);
             }
 
-            if(self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "dvar")
+            if (self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "dvar")
             {
                 dvar = self.menu.dvar[self.menu.current][self.menu.scroll];
                 value = GetDvarFloat(dvar);
 
                 value -= self.menu.amount[self.menu.current][self.menu.scroll];
-                if(value < self.menu.min[self.menu.current][self.menu.scroll])
+                if (value < self.menu.min[self.menu.current][self.menu.scroll])
                     value = self.menu.max[self.menu.current][self.menu.scroll];
 
                 SetDvar(dvar, value);
@@ -81,13 +81,13 @@ menu_buttons()
                 self LoadMenu(self.menu.current);
             }
 
-            if(self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "dvar")
+            if (self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "dvar")
             {
                 dvar = self.menu.dvar[self.menu.current][self.menu.scroll];
                 value = GetDvarFloat(dvar);
 
                 value += self.menu.amount[self.menu.current][self.menu.scroll];
-                if(value > self.menu.max[self.menu.current][self.menu.scroll])
+                if (value > self.menu.max[self.menu.current][self.menu.scroll])
                     value = self.menu.min[self.menu.current][self.menu.scroll];
 
                 SetDvar(dvar, value);
@@ -96,14 +96,14 @@ menu_buttons()
                 self LoadMenu(self.menu.current);
             }
 
-            if(self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "array")
+            if (self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "array")
             {
                 array = self.menu.array[self.menu.current][self.menu.scroll];
                 arrayname = self.menu.arrayname[self.menu.current][self.menu.scroll];
                 index = Int(self get_pers("arrayindex_" + arrayname));
 
                 index--;
-                if(index < 0)
+                if (index < 0)
                     index = array.size - 1;
 
                 self set_pers("arrayindex_" + arrayname, index);
@@ -111,14 +111,14 @@ menu_buttons()
                 self LoadMenu(self.menu.current);
             }
 
-            if(self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "array")
+            if (self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "array")
             {
                 array = self.menu.array[self.menu.current][self.menu.scroll];
                 arrayname = self.menu.arrayname[self.menu.current][self.menu.scroll];
                 index = Int(self get_pers("arrayindex_" + arrayname));
 
                 index++;
-                if(index >= array.size)
+                if (index >= array.size)
                     index = 0;
 
                 self set_pers("arrayindex_" + arrayname, index);
@@ -126,7 +126,7 @@ menu_buttons()
                 self LoadMenu(self.menu.current);
             }
 
-            if(self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "bind")
+            if (self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "bind")
             {
                 pers = self.menu.pers[self.menu.current][self.menu.scroll];
                 self notify("stop" + pers);
@@ -172,12 +172,12 @@ menu_buttons()
                 }
 
 
-                if(self get_pers(pers) != "^1OFF^7")
+                if (self get_pers(pers) != "^1OFF^7")
                     self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll], self get_pers(pers), pers);
                 self LoadMenu(self.menu.current);
             }
 
-            if(self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "bind")
+            if (self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "bind")
             {
                 pers = self.menu.pers[self.menu.current][self.menu.scroll];
                 self notify("stop" + pers);
@@ -223,19 +223,19 @@ menu_buttons()
                 }
 
 
-                if(self get_pers(pers) != "^1OFF^7")
+                if (self get_pers(pers) != "^1OFF^7")
                     self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll], self get_pers(pers), pers);
                 self LoadMenu(self.menu.current);
             }
 
-            if(self UseButtonPressed())
+            if (self UseButtonPressed())
             {
-                if(self.menu.slidertype[self.menu.current][self.menu.scroll] == "none")
+                if (self.menu.slidertype[self.menu.current][self.menu.scroll] == "none")
                 {
                     self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll],self.menu.input[self.menu.current][self.menu.scroll],self.menu.input2[self.menu.current][self.menu.scroll]);
                     self LoadMenu(self.menu.current);
                 }
-                else if(self.menu.slidertype[self.menu.current][self.menu.scroll] == "array")
+                else if (self.menu.slidertype[self.menu.current][self.menu.scroll] == "array")
                 {
                     arrayname = self.menu.arrayname[self.menu.current][self.menu.scroll];
                     self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll],level.arrayscrolls[arrayname][Int(self get_pers("arrayindex_" + arrayname))]);
@@ -244,9 +244,9 @@ menu_buttons()
                 wait 0.3;
             }
 
-            if(self MeleeButtonPressed())
+            if (self MeleeButtonPressed())
             {
-                if(self.menu.parent[self.menu.current] == "exit")
+                if (self.menu.parent[self.menu.current] == "exit")
                 {
                     self DestroyMenuHud();
                     self.menu.isopen = false;
@@ -265,7 +265,7 @@ menu_buttons()
 
 UpdateScroll()
 {
-    if(self.menu.smoothscroll)
+    if (self.menu.smoothscroll)
         self.hud["scroll"] MoveOverTime(0.1);
     else
         self.hud["scroll"] MoveOverTime(0);

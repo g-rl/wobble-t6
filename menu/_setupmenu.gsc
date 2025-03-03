@@ -22,79 +22,79 @@ setup_menu()
 // fuck you plutonium
 notifyonplayercmd( cmd, button )
 {
-    if(button == "+usereload")
+    if (button == "+usereload")
     {
-        if(self UseButtonPressed())
+        if (self UseButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+switchseat")
+    if (button == "+switchseat")
     {
-        if(self ChangeSeatButtonPressed())
+        if (self ChangeSeatButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+smoke")
+    if (button == "+smoke")
     {
-        if(self SecondaryOffHandButtonPressed())
+        if (self SecondaryOffHandButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+frag")
+    if (button == "+frag")
     {
-        if(self FragButtonPressed())
+        if (self FragButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+melee")
+    if (button == "+melee")
     {
-        if(self MeleeButtonPressed())
+        if (self MeleeButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+stance")
+    if (button == "+stance")
     {
-        if(self StanceButtonPressed())
+        if (self StanceButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+gostand")
+    if (button == "+gostand")
     {
-        if(self JumpButtonPressed())
+        if (self JumpButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+actionslot 1")
+    if (button == "+actionslot 1")
     {
-        if(self ActionSlotOneButtonPressed())
+        if (self ActionSlotOneButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+actionslot 2")
+    if (button == "+actionslot 2")
     {
-        if(self ActionSlotTwoButtonPressed())
+        if (self ActionSlotTwoButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+actionslot 3")
+    if (button == "+actionslot 3")
     {
-        if(self ActionSlotThreeButtonPressed())
+        if (self ActionSlotThreeButtonPressed())
         {
             self notify(cmd);
         }
     }
-    if(button == "+actionslot 4")
+    if (button == "+actionslot 4")
     {
-        if(self ActionSlotFourButtonPressed())
+        if (self ActionSlotFourButtonPressed())
         {
             self notify(cmd);
         }
