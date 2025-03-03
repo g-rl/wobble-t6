@@ -6,84 +6,155 @@
 #include maps\mp\gametypes\_rank;
 #include maps\mp\gametypes\_hud;
 
-
-add_string(string)
+overflow_fix()
 {
-    level.strings = string;
-    level notify("string_added");
-}
-
-fix_string()
-{
-    self notify("new_string");
-    self endon("new_string");
-    while(isDefined(self))
+    self.stringTable = [];
+    self.stringTableEntryCount = 0;
+    self.textTable = [];
+    self.textTableEntryCount = 0;
+    if (!isdefined(level.anchorText))
     {
-        level waittill("overflow_fixed");
-        self setSafeText(self.string);
+        level.anchorText = createServerFontString("default", 1.5);
+        level.anchorText setText("anchor");
+        level.anchorText.alpha = 0;
+        level.stringCount = 0;
+        level thread overflow_monitor();
     }
 }
 
-
-overflow_fix_init()
+overflow_monitor()
 {
-    level.strings = [];
-    level.overflowElem = createServerFontString("default", 1.5);
-    level.overflowElem setSafeText("overflow");
-    level.overflowElem.alpha = 0;
-    level thread overflowFixMonitor();
-}
-
-OverflowFixMonitor()
-{
+    level endon("disconnect");
+    level endon("game_ended");
     for(;;)
     {
-        level waittill("string_added");
-        if (level.strings >= 45)
-        {
-            level.overflowElem clearAllTextAfterHudElem();
-            level.strings = [];
-            level notify("overflow_fixed");
-        }
         wait 0.05;
-    }
-}
 
-SetSafeText(text)
-{
-    self.string = text;
-    self setText(text);
-    self thread fix_string();
-    self add_string(text);
-}
-
-OverflowFix()
-{
-    level.test = createServerFontString("default",1.5);
-    level.test setText("xTUL");
-    level.test.alpha = 0;
-
-    for(;;)
-    {
-        level waittill("textset");
-        if (level.result >= 50)
+        if (level.stringCount >= 50)
         {
-            level.test ClearAllTextAfterHudElem();
-            level.result = 0;
+            level.anchorText clearAllTextAfterHudElem();
+            level.stringCount = 0;
+
+            players = getplayers();
+            foreach(player in players)
+            {
+                if (!isdefined(player))
+                    continue;
+
+                player purge_text_table();
+                player purge_string_table();
+                player recreate_text();
+            }
         }
-        wait .1;
     }
 }
 
-Clear(player)
+set_safe_text(player, text)
 {
-    if (self.type == "text")
-        player deleteTextTableEntry(self.textTableIndex);
-
-    self destroy();
+    stringId = player get_string_id(text);
+    if (stringId == -1)
+    {
+        player add_string_table_entry(text);
+        stringId = player get_string_id(text);
+    }
+    player edit_text_table_entry(self.textTableIndex, stringId);
+    self setText(text);
 }
 
-DeleteTextTableEntry(id)
+recreate_text()
+{
+    foreach(entry in self.textTable)
+        entry.element set_safe_text(self, lookup_string_by_id(entry.stringId));
+}
+
+add_string_table_entry(string)
+{
+    entry = spawnStruct();
+    entry.id = self.stringTableEntryCount;
+    entry.string = string;
+    self.stringTable[self.stringTable.size] = entry;
+    self.stringTableEntryCount++;
+    level.stringCount++;
+}
+
+lookup_string_by_id(id)
+{
+    string = "";
+    foreach(entry in self.stringTable)
+    {
+        if (entry.id == id)
+        {
+            string = entry.string;
+            break;
+        }
+    }
+    return string;
+}
+
+get_string_id(string)
+{
+    id = -1;
+    foreach(entry in self.stringTable)
+    {
+        if (entry.string == string)
+        {
+            id = entry.id;
+            break;
+        }
+    }
+    return id;
+}
+
+get_string_table_entry(id)
+{
+    stringTableEntry = -1;
+    foreach(entry in self.stringTable)
+    {
+        if (entry.id == id)
+        {
+            stringTableEntry = entry;
+            break;
+        }
+    }
+    return stringTableEntry;
+}
+
+purge_string_table()
+{
+    stringTable = [];
+    foreach(entry in self.textTable)
+    {
+        stringTable[stringTable.size] = get_string_table_entry(entry.stringId);
+    }
+    self.stringTable = stringTable;
+}
+
+purge_text_table()
+{
+    textTable = [];
+    foreach(entry in self.textTable)
+    {
+        if (entry.id != -1)
+        {
+            textTable[textTable.size] = entry;
+        }
+    }
+    self.textTable = textTable;
+}
+
+edit_text_table_entry(id, stringId)
+{
+    foreach(entry in self.textTable)
+    {
+        if (entry.id == id)
+        {
+            entry.stringId = stringId;
+            break;
+        }
+    }
+}
+
+delete_text_table_entry(id)
 {
     foreach(entry in self.textTable)
     {
@@ -93,4 +164,13 @@ DeleteTextTableEntry(id)
             entry.stringId = -1;
         }
     }
+}
+
+clear(player)
+{
+    if (self.type == "text")
+        player delete_text_table_entry(self.textTableIndex);
+
+    if (isdefined(self))
+        self destroy();
 }

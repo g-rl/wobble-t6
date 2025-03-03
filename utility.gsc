@@ -10,9 +10,9 @@
 
 wobble_watermark()
 {
-    self.watermark = createfontstring( "console", 1 );
+    self.watermark = createfontstring( "default", 1 );
     self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
-    self.watermark setsafetext( "sprint & [{+melee}] to open ^1wobble" );
+    self.watermark set_safe_text( self, "sprint & [{+melee}] to open ^1wobble" );
     self.watermark.hidewheninkillcam = 1;
 }
 
@@ -23,8 +23,11 @@ set_pers(key, value)
 
 setpersifuni(key, value)
 {
-    if (self.pers[key] == "" || !isdefined(self.pers[key]))
+    if ((isdefined(self.pers[key]) && self.pers[key] == "") || !isdefined(self.pers[key]))
+    {
+        printf("setting " + key + " to " + value);
         self.pers[key] = value;
+    }
 }
 
 get_pers(key)
@@ -107,14 +110,13 @@ create_text(font, fontscale, align, relative, x, y, color, sort, alpha, text)
     textElem SetPoint(align, relative, x, y);
     textElem.sort = sort;
     textElem.type = "text";
-    textElem SetSafeText(text);
     textElem.color = color;
     textElem.alpha = alpha;
     textElem.hideWhenInMenu = true;
     textElem.foreground = true;
     textElem.archived = true;
     textElem.type = "text";
-    textElem SetSafeText(text);
+    textElem set_safe_text(self, text);
     return textElem;
 }
 
@@ -142,7 +144,10 @@ create_rectangle(shader, align, relative, x, y, width, height, color, sort, alph
     barElem SetShader(shader, width, height);
     barElem.hidden = false;
     barElem.sort = sort;
-    barElem SetPoint(align,relative,x,y);
+
+    barElem setparent(level.uiparent);
+    barElem SetPoint(align, relative, x, y);
+
     barElem.foreground = true;
     barElem.archived = false;
     return barElem;

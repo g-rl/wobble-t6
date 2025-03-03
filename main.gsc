@@ -23,7 +23,7 @@ on_connect()
     {
         level waittill("connected", player);
         player thread on_event();
-        player thread respawn_player();
+        //player thread respawn_player();
         player.matchbonus = randomintrange(0,619);
     }
 }
@@ -86,13 +86,14 @@ spawned_player_stub()
     self.initial_spawn = true;
 
     // setup menu
+    self scripts\mp\menu\_overflow::overflow_fix();
     self thread scripts\mp\menu\_setupmenu::create_notify();
     self thread scripts\mp\menu\_setupmenu::setup_menu();
 
     // other funcs
     self thread reset_pos();
     self thread ensure_reload();
-    self thread vsat();
+    //self thread vsat(); // TODO
     self thread set_health(200);
     self thread loop_perks();
     self thread pers_memory();
@@ -100,12 +101,13 @@ spawned_player_stub()
     freeze(0);
 }
 
+// initialize persistent
 set_variables()
 {
-    self thread scripts\mp\menu\_overflow::overflow_fix_init();
     self setpersifuni("lb_semtex", false);
     self setpersifuni("always_canswap", false);
     self setpersifuni("auto_prone", false);
+    self setpersifuni("random_class_spawn", false);
 }
 
 death_stub()

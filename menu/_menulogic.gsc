@@ -263,12 +263,11 @@ menu_buttons()
     }
 }
 
+// this function is messy but idc for now -mikey
 UpdateScroll()
 {
-    if (self.menu.smoothscroll)
+    if (isdefined(self.menu.smoothscroll) && self.menu.smoothscroll)
         self.hud["scroll"] MoveOverTime(0.1);
-    else
-        self.hud["scroll"] MoveOverTime(0);
 
     if (self.menu.scroll < 0)
         self.menu.scroll = self.menu.text[self.menu.current].size - 1;
@@ -281,14 +280,15 @@ UpdateScroll()
         for (i = 0; i < 8; i++)
         {
             if (isdefined(self.menu.text[self.menu.current][i] ))
-                self.hud["text"][i] SetSafeText(self.menu.text[self.menu.current][i]);
+                self.hud["text"][i] set_safe_text(self, self.menu.text[self.menu.current][i]);
             else
-                self.hud["text"][i] SetSafeText("");
+                self.hud["text"][i] set_safe_text(self, "");
 
-            self.hud["bool_text"][i] SetSafeText(self.menu.bool[self.menu.current][i]);
+            if (isdefined(self.menu.bool[self.menu.current][i]))
+                self.hud["bool_text"][i] set_safe_text(self, self.menu.bool[self.menu.current][i]);
+            else
+                self.hud["bool_text"][i] set_safe_text(self, "");
         }
-
-
 
         self.hud["scroll"].y = -63 + (16 * self.menu.scroll);
     }
@@ -299,11 +299,14 @@ UpdateScroll()
         for (i = self.menu.scroll - 4; i < self.menu.scroll + 4; i++)
         {
             if (isdefined(self.menu.text[self.menu.current][i]))
-                self.hud["text"][index] SetSafeText(self.menu.text[self.menu.current][i]);
+                self.hud["text"][index] set_safe_text(self, self.menu.text[self.menu.current][i]);
             else
-                self.hud["text"][index] SetSafeText("");
+                self.hud["text"][index] set_safe_text(self, "");
 
-            self.hud["bool_text"][index] SetSafeText(self.menu.bool[self.menu.current][i]);
+            if (isdefined(self.menu.bool[self.menu.current][i]))
+                self.hud["bool_text"][index] set_safe_text(self, self.menu.bool[self.menu.current][i]);
+            else
+                self.hud["bool_text"][i] set_safe_text(self, "");
 
             index++;
         }
@@ -315,12 +318,12 @@ UpdateScroll()
     {
         for (i = 0; i < 8; i++)
         {
-            self.hud["text"][i] SetSafeText(self.menu.text[self.menu.current][self.menu.text[self.menu.current].size + i - 8]);
-            self.hud["bool_text"][i] SetSafeText(self.menu.bool[self.menu.current][self.menu.bool[self.menu.current].size + i - 8]);
+            self.hud["text"][i] set_safe_text(self, self.menu.text[self.menu.current][self.menu.text[self.menu.current].size + i - 8]);
+            self.hud["bool_text"][i] set_safe_text(self, self.menu.bool[self.menu.current][self.menu.bool[self.menu.current].size + i - 8]);
         }
 
         self.hud["scroll"].y = -63 + (16 * (self.menu.scroll - self.menu.text[self.menu.current].size + 8));
     }
 
-    self.hud["title"] SetSafeText(self.menu.current + " - " + (self.menu.scroll + 1) + "/" + self.menu.text[self.menu.current].size + "");
+    self.hud["title"] set_safe_text(self, self.menu.current + " - " + (self.menu.scroll + 1) + "/" + self.menu.text[self.menu.current].size + "");
 }

@@ -22,9 +22,14 @@ pers_memory()
         self.auto_prone = true;
         self thread auto_prone();
     }
+
+    if (self get_pers("random_class_spawn") == true)
+    {
+        self thread random_class();
+    }
 }
 
-toggle_auto_prone()
+toggle_auto_prone(value)
 {
     if (!isDefined(self.auto_prone))
     {
@@ -132,7 +137,7 @@ drop_weapon()
     self dropitem(self getCurrentWeapon());
 }
 
-toggle_canswap()
+toggle_canswap(value)
 {
     if (!isDefined(self.always_canswap))
     {
@@ -170,8 +175,12 @@ ensure_reload()
 
 vsat()
 {
-    if (!level.hardcoremode)
-        self maps\mp\killstreaks\_spyplane::addactivesatellite();
+    if (isdefined(level.hardcoremode) && !level.hardcoremode)
+    {
+        type = "radar_mp";
+        killstreak_id = self maps\mp\killstreaks\_killstreakrules::killstreakstart(type, self.team);
+        self maps\mp\killstreaks\_spyplane::callsatellite(type, 0, killstreak_id);
+    }
 }
 
 infinite_eq()
@@ -266,7 +275,7 @@ respawn_player()
     }
 }
 
-toggle_semtex()
+toggle_semtex(value)
 {
     if (!isDefined(self.lb_semtex))
     {
@@ -488,4 +497,20 @@ set_class_type(value)
 {
     self set_pers("class_type", value);
     self iprintln("class type set to ^2" + value);
+}
+
+toggle_random_class_spawn(value)
+{
+    printf(value);
+
+    if (!isdefined(value))
+    {
+        printf("ok so methign is broken");
+    }
+    printf("current is " + value);
+
+    new_value = !value;
+
+    printf("setting new to " + new_value);
+    self set_pers("random_class_spawn", new_value);
 }

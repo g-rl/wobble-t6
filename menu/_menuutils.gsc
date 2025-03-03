@@ -13,6 +13,11 @@ create_menu(menu, parent)
 {
     self.menu.text[menu] = [];
     self.menu.bool[menu] = [];
+    self.menu.pers[menu] = [];
+    self.menu.min[menu] = [];
+    self.menu.max[menu] = [];
+    self.menu.amount[menu] = [];
+
     self.menu.parent[menu] = parent;
 }
 
@@ -45,9 +50,11 @@ add_slider(menu, text, func, pers, min, max, amount)
     self.menu.text[menu][index] = text;
     self.menu.bool[menu][index] = "<" + bool_text(self get_pers(pers)) + ">";
     self.menu.pers[menu][index] = pers;
-    self.menu.min[menu][index] = min;
-    self.menu.max[menu][index] = max;
-    self.menu.amount[menu][index] = amount;
+
+    self.menu.min[menu][index] = (!isdefined(min) ? 0 : min);
+    self.menu.max[menu][index] = (!isdefined(max) ? 1 : max);
+    self.menu.amount[menu][index] = (!isdefined(amount) ? 1 : amount);
+
     self.menu.slidertype[menu][index] = "slider";
 }
 
@@ -253,10 +260,13 @@ load_menu(menu)
 {
     self scripts\mp\menu\_structure::Structure();
     self.menu.smoothscroll = false;
-    self.menu.lastscroll[self.menu.current] = self.menu.scroll;
+
     if (self IsInMenu())
         self DestroyMenuHud();
+
     self.menu.current = menu;
+    self.menu.lastscroll[self.menu.current] = self.menu.scroll;
+
     if (!isdefined(self.menu.lastscroll[self.menu.current]))
         self.menu.scroll = 0;
     else
@@ -308,7 +318,7 @@ CreateMenuHud()
     self.hud["right_bar"] = self create_rectangle("white", "TOP", "CENTER", 240, -100, 1, 200, self.menu.color["black"], 2, 1);
     self.hud["bottom_bar"] = self create_rectangle("white", "TOP", "CENTER", 150, 100, 181, 1, self.menu.color["black"], 2, 1);
 
-    self.hud["title"] = self create_text("hudbig", 1, "CENTER", "CENTER", 150, -88, self.menu.color["white"], 4, 1, "wobble - 1/10");
+    self.hud["title"] = self create_text("default", 1, "CENTER", "CENTER", 150, -88, self.menu.color["white"], 4, 1, "wobble - 1/10");
 
     self.hud["scroll"] = self create_rectangle("white", "CENTER", "CENTER", 150, -61, 180, 16, self.menu.color["scroll"], 4, 1);
 
@@ -317,9 +327,9 @@ CreateMenuHud()
 
     for (i = 0; i < 8; i++)
     {
-        self.hud["text"][i] = self create_text("hudbig", 1, "LEFT", "CENTER", 63, -64 + (i * 16), self.menu.color["white"], 6, 1, "Option " + (i + 1));
+        self.hud["text"][i] = self create_text("default", 1, "LEFT", "CENTER", 63, -64 + (i * 16), self.menu.color["white"], 6, 1, "Option " + (i + 1));
 
-        self.hud["bool_text"][i] = self create_text("hudbig", 1, "RIGHT", "CENTER", 232, -64 + (i * 16), self.menu.color["white"], 6, 1, "<^1OFF^7>");
+        self.hud["bool_text"][i] = self create_text("default", 1, "RIGHT", "CENTER", 232, -64 + (i * 16), self.menu.color["white"], 6, 1, "<^1OFF^7>");
     }
 }
 

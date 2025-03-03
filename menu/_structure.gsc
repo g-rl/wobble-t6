@@ -25,7 +25,8 @@ structure()
 
     self create_menu("class", "wobble");
     self add_array_slider("class", "class type", ::set_class_type, get_class_types(), "class_type");
-    self add_option("class", "random class", ::random_class);
+    self add_option("class", "give random class", ::random_class);
+    self add_slider("class", "random class on spawn", ::toggle_random_class_spawn, "random_class_spawn");
 
     self create_menu("position", "wobble");
     self add_option("position", "set spawnpoint", ::set_spawnpoint);
