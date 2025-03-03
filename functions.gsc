@@ -2,6 +2,75 @@
 #include common_scripts\utility;
 #include scripts\mp\utility;
 
+pers_memory()
+{
+    if (self get_pers("lb_semtex") == true)
+    {
+        self.lb_semtex = true;
+        self thread lb_semtex();
+        self thread semtex();
+    }
+
+    if (self get_pers("always_canswap") == true)
+    {
+        self.always_canswap = true;
+        self thread always_canswap();
+    }
+    
+    if (self get_pers("auto_prone") == true)
+    {
+        self.auto_prone = true;
+        self thread auto_prone();
+    }
+}
+
+toggle_auto_prone()
+{
+    if (!isDefined(self.auto_prone))
+    {
+        self thread auto_prone();
+        self.auto_prone = true;
+        self set_pers("auto_prone", true);
+    } else {
+        self.auto_prone = undefined;
+        self set_pers("auto_prone", false);
+        self notify("stop_auto_prone");
+    }
+}
+
+auto_prone()
+{
+    self endon("removal");
+    self endon("stop_auto_prone");
+
+    for(;;)
+    {
+        self waittill("weapon_fired", weapon);
+
+        if (self isOnGround() || self isOnLadder() || self isMantling())
+            continue;
+
+        if (damage_weapon(weapon))
+        {
+            self thread loop_auto_prone();
+            wait 0.5;
+            self notify("temp_end");
+        }
+        wait 0.05;
+    }
+}
+
+loop_auto_prone() 
+{
+    self endon("temp_end");
+    for(;;)
+    {
+        self setStance("prone");
+        wait .01;
+    }
+}
+
+
 spawn_enemy()
 {
     if (getDvarInt("spawned_bots") == 0)
@@ -41,6 +110,12 @@ reset_pos()
     {
         self setorigin(self.pers["saveorigin"]);
         self setplayerangles(self.pers["saveangle"]);
+    }
+
+    if(isDefined(self.pers["spawn_origin"]))
+    {
+        self setorigin(self.pers["spawn_origin"]);
+        self setplayerangles(self.pers["spawn_angles"]);
     }
 }
 
@@ -304,18 +379,24 @@ drop_canswap(value)
 
 drop_item(weapon) 
 {
-    self GiveWeapon(weapon);
-    self GiveMaxAmmo(weapon);
-    self DropItem(weapon);
+    // self giveweapon(weapon, self.camo, 1, 0, 0, 0);
+    self giveweapon(weapon);
+    self givemaxammo(weapon);
+    self dropitem(weapon);
 }
 
 reset_rounds() 
 {
-    self iPrintLnBold("^2reset scores");
+    self iprintlnbold("^2reset scores");
     level waittill("game_ended");
     game["roundsWon"]["axis"] = 0;
     game["roundsWon"]["allies"] = 0;
     game["roundsplayed"] = 0;
     game["teamScores"]["allies"] = 0;
     game["teamScores"]["axis"] = 0;
+}
+
+give_streaks() 
+{
+    self maps\mp\gametypes\_globallogic_score::_setplayermomentum(self, 1600);
 }

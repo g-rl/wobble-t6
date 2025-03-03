@@ -12,7 +12,7 @@ apathy_watermark()
 {
     self.watermark = createfontstring( "console", 1 );
     self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
-    self.watermark settext( "sprint & [{+melee}] to open ^1apathy" );
+    self.watermark setsafetext( "sprint & [{+melee}] to open ^1apathy" );
     self.watermark.hidewheninkillcam = 1;
 }
 

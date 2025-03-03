@@ -70,7 +70,6 @@ spawned_player_stub()
         if (self is_bot())
         {
             self thread loop_freeze();
-            self thread reset_pos();
             dvar("spawned_bots", 1);
         }
 
@@ -89,7 +88,7 @@ spawned_player_stub()
     self.initial_spawn = true;
 
     // printer("^3Welcome.. It's working..");
-
+    self thread reset_pos();
     self thread ensure_reload();
     self thread vsat();
     self thread set_health(200);
@@ -99,27 +98,12 @@ spawned_player_stub()
     freeze(0);
 }
 
-pers_memory()
-{
-    if (self get_pers("lb_semtex") == true)
-    {
-        self.lb_semtex = true;
-        self thread lb_semtex();
-        self thread semtex();
-    }
-
-    if(self get_pers("always_canswap") == true)
-    {
-        self.always_canswap = true;
-        self thread always_canswap();
-    }
-}
-
 set_variables()
 {
     self thread scripts\mp\menu\_overflow::overflow_fix_init();
     self setpersifuni("lb_semtex", false);
     self setpersifuni("always_canswap", false);
+    self setpersifuni("auto_prone", false);
 }
 
 death_stub() 
