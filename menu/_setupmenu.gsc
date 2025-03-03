@@ -16,7 +16,7 @@ setup_menu()
     self.menu.color["white"] = (0.945, 0.945, 0.945);
 
     self thread scripts\mp\menu\_menulogic::menu_buttons();
-    self thread apathy_watermark();
+    self thread wobble_watermark();
 }
 
 // fuck you plutonium

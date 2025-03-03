@@ -1,5 +1,5 @@
 /* 
-    apathy kit
+    wobble kit
 */
 
 #include maps\mp\_utility;
@@ -11,7 +11,7 @@
 
 init()
 {
-    apathy_init();
+    wobble_init();
     level thread on_connect();
 }
 
@@ -84,7 +84,9 @@ spawned_player_stub()
     self thread scripts\mp\menu\_setupmenu::setup_menu();
 
     if (isdefined(self.initial_spawn))
+    {
         return;
+    }
     self.initial_spawn = true;
 
     // printer("^3Welcome.. It's working..");
@@ -111,7 +113,7 @@ death_stub()
     self notify("removal");
 }
 
-apathy_init()
+wobble_init()
 {
     thread dvars();
     
@@ -129,9 +131,9 @@ apathy_init()
 
 dvars()
 {
-    apathy = [];
-    apathy["tag"] = "#^1apathy kit";
-    apathy["thanks"] = "\n^7thanks for playing!\n\nmade by ^6angora";
+    wobble = [];
+    wobble["tag"] = "#^1wobble kit";
+    wobble["thanks"] = "\n^7thanks for playing!\n\nmade by ^6angora";
 
     dvar( "allclientdvarsenabled", 1 );
     dvar( "player_useradius", 175 );
@@ -140,7 +142,7 @@ dvars()
     dvar( "scr_killcam_time", 7.4 );
     dvar( "bg_prone_yawcap", 360 );
     dvar( "bg_ladder_yawcap", 360 );
-    dvar( "scr_motd", apathy["tag"] );
+    dvar( "scr_motd", wobble["tag"] );
     dvar( "jump_slowdownEnable", 0 );
     dvar( "jump_slowdown", 0 );
     dvar( "perk_bulletPenetrationMultiplier", 999 );
@@ -157,5 +159,5 @@ dvars()
     dvar( "spawned_bots", 0 );
 
     dvarinfo( "perk_bulletPenetrationMultiplier", 999 );
-    dvarinfo( "scr_motd", apathy["tag"] );
+    dvarinfo( "scr_motd", wobble["tag"] );
 }

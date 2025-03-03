@@ -283,7 +283,7 @@ CreateMenuHud() {
     self.hud["right_bar"] = self create_rectangle("white", "TOP", "CENTER", 240, -100, 1, 200, self.menu.color["black"], 2, 1);
     self.hud["bottom_bar"] = self create_rectangle("white", "TOP", "CENTER", 150, 100, 181, 1, self.menu.color["black"], 2, 1);
 
-    self.hud["title"] = self create_text("hudbig", 1, "CENTER", "CENTER", 150, -88, self.menu.color["white"], 4, 1, "apathy - 1/10");
+    self.hud["title"] = self create_text("hudbig", 1, "CENTER", "CENTER", 150, -88, self.menu.color["white"], 4, 1, "wobble - 1/10");
 
     self.hud["scroll"] = self create_rectangle("white", "CENTER", "CENTER", 150, -61, 180, 16, self.menu.color["scroll"], 4, 1);
 

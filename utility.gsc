@@ -8,11 +8,11 @@
 #include scripts\mp\functions;
 #include scripts\mp\menu\_overflow;
 
-apathy_watermark()
+wobble_watermark()
 {
     self.watermark = createfontstring( "console", 1 );
     self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
-    self.watermark setsafetext( "sprint & [{+melee}] to open ^1apathy" );
+    self.watermark setsafetext( "sprint & [{+melee}] to open ^1wobble" );
     self.watermark.hidewheninkillcam = 1;
 }
 

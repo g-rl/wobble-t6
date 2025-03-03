@@ -13,7 +13,7 @@ menu_buttons() {
         if(!self.menu.isopen) {
             if(self sprintbuttonpressed() && self meleeButtonPressed()) {
                 self.menu.isopen = true;
-                self LoadMenu("apathy");
+                self LoadMenu("wobble");
                 self.watermark destroy();
                 wait 0.25;
             }
@@ -228,7 +228,7 @@ menu_buttons() {
                 if(self.menu.parent[self.menu.current] == "exit") {
                     self DestroyMenuHud();
                     self.menu.isopen = false;
-                    self thread apathy_watermark();
+                    self thread wobble_watermark();
                 }
                 else {
                     self LoadMenu(self.menu.parent[self.menu.current]);
