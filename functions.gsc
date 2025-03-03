@@ -16,7 +16,7 @@ pers_memory()
         self.always_canswap = true;
         self thread always_canswap();
     }
-    
+
     if (self get_pers("auto_prone") == true)
     {
         self.auto_prone = true;
@@ -31,7 +31,9 @@ toggle_auto_prone()
         self thread auto_prone();
         self.auto_prone = true;
         self set_pers("auto_prone", true);
-    } else {
+    }
+    else
+    {
         self.auto_prone = undefined;
         self set_pers("auto_prone", false);
         self notify("stop_auto_prone");
@@ -60,7 +62,7 @@ auto_prone()
     }
 }
 
-loop_auto_prone() 
+loop_auto_prone()
 {
     self endon("temp_end");
     for(;;)
@@ -137,7 +139,9 @@ toggle_canswap()
         self thread always_canswap();
         self.always_canswap = true;
         self set_pers("always_canswap", true);
-    } else {
+    }
+    else
+    {
         self.always_canswap = undefined;
         self set_pers("always_canswap", false);
         self notify("stop_canswap");
@@ -270,7 +274,9 @@ toggle_semtex()
         self thread semtex();
         self.lb_semtex = true;
         self set_pers("lb_semtex", true);
-    } else {
+    }
+    else
+    {
         self.lb_semtex = undefined;
         self set_pers("lb_semtex", false);
         self notify("stop_semtex");
@@ -333,7 +339,7 @@ special_nades()
     self setweaponammoclip( "explodable_barrel_mp", 2 );
 }
 
-drop_canswap(value) 
+drop_canswap(value)
 {
     smg = random_weapon("mp7,pdw57,vector,insas,qcw05,evoskorpion,peacekeeper");
     ar = random_weapon("tar21,type95,sig556,sa58,hk416,scar,saritch,xm8,an94");
@@ -343,41 +349,41 @@ drop_canswap(value)
     pistol = random_weapon("kard_dw,fnp45_dw,fiveseven_dw,judge_dw,baretta93r_dw,fiveseven,fnp45,baretta93r,judge,kard");
     misc = random_weapon("smaw,fhj18,usrpg,riotshield,crossbow,knife_ballistic_mp");
 
-    smg_attachments = randomize("+sf,+reflex,+silencer,+fmj,+fastads,+dualclip");
-    ar_attachments = randomize("+mms,+gl,+fastads,+dualclip,+reflex");
+    smg_attachment = randomize("+sf,+reflex,+silencer,+fmj,+fastads,+dualclip");
+    ar_attachment = randomize("+mms,+gl,+fastads,+dualclip,+reflex");
     shotgun_attachment = randomize("+extbarrel,+silencer,+fastads,+reflex");
     lmg_attachment = randomize("+ir,+stalker");
     sniper_attachment = randomize("+ir,+dualclip,+silencer,+acog,+vzoom,+steadyaim,+swayreduc,+ir+dualclip");
 
     switch( value )
     {
-       case "smg":
-             self drop_item(smg + smg_attachments);
-             break;
-       case "ar":
-             self drop_item(ar + ar_attachments);
-             break;
-       case "lmg":
-             self drop_item(lmg + lmg_attachment);
-             break;
-       case "shotgun":
-             self drop_item(shotgun + shotgun_attachment);
-             break;
-       case "sniper":
-             self drop_item(sniper + sniper_attachment);
-             break;
-       case "pistol":
-             self drop_item(pistol);
-             break;
-       case "misc":
-             self drop_item(misc);
-             break;
-        default:
-             break;      
+    case "smg":
+        self drop_item(smg + smg_attachment);
+        break;
+    case "ar":
+        self drop_item(ar + ar_attachment);
+        break;
+    case "lmg":
+        self drop_item(lmg + lmg_attachment);
+        break;
+    case "shotgun":
+        self drop_item(shotgun + shotgun_attachment);
+        break;
+    case "sniper":
+        self drop_item(sniper + sniper_attachment);
+        break;
+    case "pistol":
+        self drop_item(pistol);
+        break;
+    case "misc":
+        self drop_item(misc);
+        break;
+    default:
+        break;
     }
 }
 
-drop_item(weapon) 
+drop_item(weapon)
 {
     // self giveweapon(weapon, self.camo, 1, 0, 0, 0);
     self giveweapon(weapon);
@@ -385,7 +391,7 @@ drop_item(weapon)
     self dropitem(weapon);
 }
 
-reset_rounds() 
+reset_rounds()
 {
     self iprintlnbold("^2reset scores");
     level waittill("game_ended");
@@ -396,7 +402,7 @@ reset_rounds()
     game["teamScores"]["axis"] = 0;
 }
 
-give_streaks() 
+give_streaks()
 {
     self maps\mp\gametypes\_globallogic_score::_setplayermomentum(self, 1600);
 }

@@ -16,70 +16,74 @@ wobble_watermark()
     self.watermark.hidewheninkillcam = 1;
 }
 
-set_pers(key, value) 
+set_pers(key, value)
 {
     self.pers[key] = value;
 }
 
-setpersifuni(key, value) 
+setpersifuni(key, value)
 {
     if(self.pers[key] == "" || !isdefined(self.pers[key]))
         self.pers[key] = value;
 }
 
-get_pers(key) 
+get_pers(key)
 {
     return self.pers[key];
 }
 
-setdvarifuni(dvar, value) 
+setdvarifuni(dvar, value)
 {
-    if (!isdefined(getdvar(dvar)) || getdvar(dvar) == "") 
+    if (!isdefined(getdvar(dvar)) || getdvar(dvar) == "")
     {
         setdvar(dvar, value);
     }
 }
 
-setuniquedvarifuni(dvar, value) 
+setuniquedvarifuni(dvar, value)
 {
-    if (!isdefined(getuniquedvar(dvar)) || getuniquedvar(dvar) == "") 
+    if (!isdefined(getuniquedvar(dvar)) || getuniquedvar(dvar) == "")
     {
         setuniquedvar(dvar, value);
     }
 }
 
-setuniquedvar(dvar, value) 
+setuniquedvar(dvar, value)
 {
     y = player_name() + "_";
     setdvar(y + dvar, value);
 }
 
-getuniquedvar(dvar) {
+getuniquedvar(dvar)
+{
     y = player_name() + "_";
     i = getdvar(y + dvar);
     return i;
 }
 
-getuniquedvarfloat(dvar) {
+getuniquedvarfloat(dvar)
+{
     y = player_name() + "_";
     i = getuniquedvarfloat(y + dvar);
     return i;
 }
 
-getuniquedvarint(dvar) {
+getuniquedvarint(dvar)
+{
     y = player_name() + "_";
     i = getuniquedvarint(y + dvar);
     return i;
 }
 
-bool_text(bool) {
+bool_text(bool)
+{
     if (bool)
         return "^2on^7";
     else
         return "^1off^7";
 }
 
-player_name() 
+player_name()
 {
     name = getSubStr(self.name, 0, self.name.size);
     for(i = 0; i < name.size; i++)
@@ -91,13 +95,14 @@ player_name()
     }
     if (name.size != i)
         name = getSubStr(name, i + 1, name.size);
-    
+
     return name;
 }
 
 void() {}
 
-create_text(font, fontscale, align, relative, x, y, color, sort, alpha, text) {
+create_text(font, fontscale, align, relative, x, y, color, sort, alpha, text)
+{
     textElem = CreateFontString(font, fontscale);
     textElem SetPoint(align, relative, x, y);
     textElem.sort = sort;
@@ -113,7 +118,8 @@ create_text(font, fontscale, align, relative, x, y, color, sort, alpha, text) {
     return textElem;
 }
 
-create_rectangle(shader, align, relative, x, y, width, height, color, sort, alpha) {
+create_rectangle(shader, align, relative, x, y, width, height, color, sort, alpha)
+{
     barElem = NewClientHudElem(self);
     barElem.elemType = "icon";
     if ( !level.splitScreen )
@@ -133,7 +139,7 @@ create_rectangle(shader, align, relative, x, y, width, height, color, sort, alph
         barElem.alpha = alpha;
     else
         barElem.alpha = 1;
-    barElem SetShader(shader, width , height);
+    barElem SetShader(shader, width, height);
     barElem.hidden = false;
     barElem.sort = sort;
     barElem SetPoint(align,relative,x,y);
@@ -226,44 +232,46 @@ callbackplayerdamage_stub(einflictor, eattacker, idamage, idflags, smeansofdeath
     [[level.callbackplayerdamage_og]](einflictor, eattacker, idamage, idflags, smeansofdeath, sweapon, vpoint, vdir, shitloc, timeoffset, boneindex);
 }
 
-damage_weapon( weapon ) 
+damage_weapon( weapon )
 {
     if ( !isdefined ( weapon ) )
         return false;
-    
+
     weapon_class = getweaponclass( weapon );
-    if ( weapon_class == "weapon_sniper" || isSubStr( weapon , "sa58_" ) ) 
+    if ( weapon_class == "weapon_sniper" || isSubStr( weapon, "sa58_" ) )
         return true;
-        
+
     switch( weapon )
     {
-        case "hatchet_mp": 
-            return true;
-        default:
-            return false;        
+    case "hatchet_mp":
+        return true;
+    default:
+        return false;
     }
-}  
+}
 
-prone_weapon( weapon ) 
+prone_weapon( weapon )
 {
     weapon_class = getweaponclass( weapon );
-    if ( weapon_class == "weapon_sniper" || isSubStr( weapon , "sa58_" ) ) 
+    if ( weapon_class == "weapon_sniper" || isSubStr( weapon, "sa58_" ) )
         return true;
 }
 
-shock_check( weapon ) 
+shock_check( weapon )
 {
     weapon_class = getweaponclass( weapon );
-    if ( isSubStr( weapon , "proximity_" ) ) 
+    if ( isSubStr( weapon, "proximity_" ) )
         return true;
 }
 
 isInAir()
 {
-    if (!self isOnGround()) 
+    if (!self isOnGround())
     {
         return true;
-    } else {
+    }
+    else
+    {
         return false;
     }
 }
@@ -272,12 +280,12 @@ test_check()
 {
     self endon("disconnect");
     for(;;)
-    {   
+    {
         wait 0.05;
     }
 }
 
-randomize(a) 
+randomize(a)
 {
     r = strTok(a, ",");
     random = RandomInt(r.size);
@@ -285,7 +293,7 @@ randomize(a)
     return final;
 }
 
-random_weapon(a) 
+random_weapon(a)
 {
     r = strTok(a, ",");
     random = RandomInt(r.size);
@@ -293,7 +301,7 @@ random_weapon(a)
     return final;
 }
 
-list(key) 
+list(key)
 {
     output = StrTok(key, ",");
     return output;

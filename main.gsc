@@ -1,4 +1,4 @@
-/* 
+/*
     wobble kit
 */
 
@@ -37,20 +37,20 @@ on_event()
     {
         event = waittill_any_return("spawned_player", "player_downed", "death", "disconnect", "changed_class");
 
-        switch( event ) 
+        switch( event )
         {
-            case "spawned_player":
-                self thread spawned_player_stub();
-                break;
-            case "death":
-            case "disconnect":
-                self thread death_stub();
-                break;
-            case "changed_class":
-                self maps\mp\gametypes\_class::giveloadout(self.team, self.class);
-                break;
-            default:
-                break;
+        case "spawned_player":
+            self thread spawned_player_stub();
+            break;
+        case "death":
+        case "disconnect":
+            self thread death_stub();
+            break;
+        case "changed_class":
+            self maps\mp\gametypes\_class::giveloadout(self.team, self.class);
+            break;
+        default:
+            break;
         }
     }
 }
@@ -66,7 +66,7 @@ spawned_player_stub()
 
         self.first_spawn = true;
         self.unstuck = self.origin;
-        
+
         if (self is_bot())
         {
             self thread loop_freeze();
@@ -108,7 +108,7 @@ set_variables()
     self setpersifuni("auto_prone", false);
 }
 
-death_stub() 
+death_stub()
 {
     self notify("removal");
 }
@@ -116,7 +116,7 @@ death_stub()
 wobble_init()
 {
     thread dvars();
-    
+
     level.c4array = [];
     level.claymorearray = [];
 

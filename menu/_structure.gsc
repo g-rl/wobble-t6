@@ -4,7 +4,7 @@
 #include scripts\mp\utility;
 #include scripts\mp\functions;
 
-structure() 
+structure()
 {
     // add_slider(menu, text, func, pers, min, max, amount)
     // add_dvar_slider(menu, text, func, dvar, min, max, amount)

@@ -4,17 +4,20 @@
 #include scripts\mp\utility;
 #include scripts\mp\menu\_overflow;
 
-IsInMenu() {
+IsInMenu()
+{
     return self.menu.isopen;
 }
 
-create_menu(menu, parent) {
+create_menu(menu, parent)
+{
     self.menu.text[menu] = [];
     self.menu.bool[menu] = [];
     self.menu.parent[menu] = parent;
 }
 
-add_option(menu, text, func, bool, input, input2) {
+add_option(menu, text, func, bool, input, input2)
+{
     index = self.menu.text[menu].size;
     if(isdefined(func))
         self.menu.func[menu][index] = func;
@@ -32,7 +35,8 @@ add_option(menu, text, func, bool, input, input2) {
     self.menu.slidertype[menu][index] = "none";
 }
 
-add_slider(menu, text, func, pers, min, max, amount) {
+add_slider(menu, text, func, pers, min, max, amount)
+{
     index = self.menu.text[menu].size;
     if(isdefined(func))
         self.menu.func[menu][index] = func;
@@ -47,7 +51,8 @@ add_slider(menu, text, func, pers, min, max, amount) {
     self.menu.slidertype[menu][index] = "slider";
 }
 
-AddUniqueDvarSlider(menu, text, func, dvar, min, max, amount) {
+AddUniqueDvarSlider(menu, text, func, dvar, min, max, amount)
+{
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + bool_text(GetDvarFloat(d)) + ">";
@@ -63,7 +68,8 @@ AddUniqueDvarSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddUniqueDvarIntSlider(menu, text, func, dvar, min, max, amount) {
+AddUniqueDvarIntSlider(menu, text, func, dvar, min, max, amount)
+{
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + GetDvarInt(d) + ">";
@@ -79,20 +85,22 @@ AddUniqueDvarIntSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddVelocity(menu, text) {
+AddVelocity(menu, text)
+{
     index = self.menu.text[menu].size;
     d = player_name() + "_";
 
     x = GetUniqueDvarInt("velx");
     y = GetUniqueDvarInt("vely");
     z = GetUniqueDvarInt("velz");
-    
+
     self.menu.text[menu][index] = text;
     self.menu.bool[menu][index] = "<^2" + x + "," + y + "," + z + "^7>";
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddPosition(menu, text) {
+AddPosition(menu, text)
+{
     index = self.menu.text[menu].size;
     o = self.origin;
     a = self.angles;
@@ -101,7 +109,8 @@ AddPosition(menu, text) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddMap(menu, text) {
+AddMap(menu, text)
+{
     index = self.menu.text[menu].size;
     o = level.script;
     self.menu.text[menu][index] = text;
@@ -109,19 +118,21 @@ AddMap(menu, text) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddBolt(menu, text) {
+AddBolt(menu, text)
+{
     index = self.menu.text[menu].size;
     d = player_name() + "_";
 
     x = GetUniqueDvarFloat("bolttime");
     y = GetUniqueDvarFloat("func_boltcount");
-    
+
     self.menu.text[menu][index] = text;
     self.menu.bool[menu][index] = "<^2" + x + "^7/" + "^2" + y + "^7>";
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddUniqueWeaponDvarSlider(menu, text, func, dvar, min, max, amount) {
+AddUniqueWeaponDvarSlider(menu, text, func, dvar, min, max, amount)
+{
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + GetDvar(d) + ">";
@@ -137,7 +148,8 @@ AddUniqueWeaponDvarSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-add_dvar_slider(menu, text, func, dvar, min, max, amount) {
+add_dvar_slider(menu, text, func, dvar, min, max, amount)
+{
     index = self.menu.text[menu].size;
     self.menu.bool[menu][index] = "<" + GetDvarFloat(dvar) + ">";
     if(isdefined(func))
@@ -152,7 +164,8 @@ add_dvar_slider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddUniqueIntDvarSlider(menu, text, func, dvar, min, max, amount) {
+AddUniqueIntDvarSlider(menu, text, func, dvar, min, max, amount)
+{
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + GetDvarFloat(d) + ">";
@@ -168,7 +181,8 @@ AddUniqueIntDvarSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddUniqueBoolDvarSlider(menu, text, func, dvar, min, max, amount) {
+AddUniqueBoolDvarSlider(menu, text, func, dvar, min, max, amount)
+{
     index = self.menu.text[menu].size;
     d = player_name() + "_" + dvar;
     self.menu.bool[menu][index] = "<" + bool_text(GetDvarFloat(d)) + ">";
@@ -184,7 +198,8 @@ AddUniqueBoolDvarSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddBoolDvarSlider(menu, text, func, dvar, min, max, amount) {
+AddBoolDvarSlider(menu, text, func, dvar, min, max, amount)
+{
     index = self.menu.text[menu].size;
     self.menu.bool[menu][index] = "<" + bool_text(GetDvarFloat(dvar)) + ">";
     if(isdefined(func))
@@ -199,7 +214,8 @@ AddBoolDvarSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-add_array_slider(menu, text, func, array, arrayname) {
+add_array_slider(menu, text, func, array, arrayname)
+{
     index = self.menu.text[menu].size;
     if(!isdefined(level.arrayscrolls))
         level.arrayscrolls = [];
@@ -217,7 +233,8 @@ add_array_slider(menu, text, func, array, arrayname) {
     self.menu.slidertype[menu][index] = "array";
 }
 
-AddBindSliders(menu, text, func, pers) {
+AddBindSliders(menu, text, func, pers)
+{
     index = self.menu.text[menu].size;
     if(isdefined(func))
         self.menu.func[menu][index] = func;
@@ -232,7 +249,8 @@ AddBindSliders(menu, text, func, pers) {
     self.menu.slidertype[menu][index] = "bind";
 }
 
-LoadMenu(menu) {
+LoadMenu(menu)
+{
     self scripts\mp\menu\_structure::Structure();
     self.menu.smoothscroll = false;
     self.menu.lastscroll[self.menu.current] = self.menu.scroll;
@@ -249,7 +267,8 @@ LoadMenu(menu) {
     self.menu.smoothscroll = true;
 }
 
-ExecuteFunction(f, i1, i2) { 
+ExecuteFunction(f, i1, i2)
+{
     if(isdefined( i2 ))
         return self thread [[ f ]]( i1, i2 );
     else if(isdefined( i1 ))
@@ -258,20 +277,26 @@ ExecuteFunction(f, i1, i2) {
     return self thread [[ f ]]();
 }
 
-DestroyMenuHud() {
-    foreach(key, element in self.hud) {
-        if(key != "text" && key != "bool_text") {
+DestroyMenuHud()
+{
+    foreach(key, element in self.hud)
+    {
+        if(key != "text" && key != "bool_text")
+        {
             element Destroy();
         }
-        else {
-            foreach(text_element in self.hud[key]) {
+        else
+        {
+            foreach(text_element in self.hud[key])
+            {
                 text_element Destroy();
             }
         }
     }
 }
 
-CreateMenuHud() {
+CreateMenuHud()
+{
     self.hud = [];
     // create_rectangle(shader, align, relative, x, y, width, height, color, sort, alpha) {
 
@@ -290,19 +315,22 @@ CreateMenuHud() {
     self.hud["text"] = [];
     self.hud["bool_text"] = [];
 
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < 8; i++)
+    {
         self.hud["text"][i] = self create_text("hudbig", 1, "LEFT", "CENTER", 63, -64 + (i * 16), self.menu.color["white"], 6, 1, "Option " + (i + 1));
 
         self.hud["bool_text"][i] = self create_text("hudbig", 1, "RIGHT", "CENTER", 232, -64 + (i * 16), self.menu.color["white"], 6, 1, "<^1OFF^7>");
     }
 }
 
-UpdateMenuBackground() {
+UpdateMenuBackground()
+{
     amount = self.menu.text[self.menu.current].size;
-    if(amount > 8) {
+    if(amount > 8)
+    {
         amount = 8;
     }
-    
+
     self.hud["background"] SetShader("white", 180, 31 + (16 * amount));
     self.hud["left_bar"] SetShader("white", 1, 31 + (16 * amount));
     self.hud["right_bar"] SetShader("white", 1, 31 + (16 * amount));

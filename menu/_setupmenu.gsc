@@ -3,7 +3,7 @@
 #include maps\mp\gametypes\_hud_util;
 #include scripts\mp\utility;
 
-setup_menu() 
+setup_menu()
 {
     self.menu = SpawnStruct();
     self.menu.isopen = false;
@@ -22,17 +22,83 @@ setup_menu()
 // fuck you plutonium
 notifyonplayercmd( cmd, button )
 {
-    if(button == "+usereload"){if(self UseButtonPressed()){self notify(cmd);}}
-    if(button == "+switchseat"){if(self ChangeSeatButtonPressed()){self notify(cmd);}}
-    if(button == "+smoke"){if(self SecondaryOffHandButtonPressed()){self notify(cmd);}}
-    if(button == "+frag"){if(self FragButtonPressed()){self notify(cmd);}}
-    if(button == "+melee"){if(self MeleeButtonPressed()){self notify(cmd);}}
-    if(button == "+stance"){if(self StanceButtonPressed()){self notify(cmd);}}
-    if(button == "+gostand"){if(self JumpButtonPressed()){self notify(cmd);}}
-    if(button == "+actionslot 1"){if(self ActionSlotOneButtonPressed()){self notify(cmd);}}
-    if(button == "+actionslot 2"){if(self ActionSlotTwoButtonPressed()){self notify(cmd);}}
-    if(button == "+actionslot 3"){if(self ActionSlotThreeButtonPressed()){self notify(cmd);}}
-    if(button == "+actionslot 4"){if(self ActionSlotFourButtonPressed()){self notify(cmd);}}
+    if(button == "+usereload")
+    {
+        if(self UseButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+switchseat")
+    {
+        if(self ChangeSeatButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+smoke")
+    {
+        if(self SecondaryOffHandButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+frag")
+    {
+        if(self FragButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+melee")
+    {
+        if(self MeleeButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+stance")
+    {
+        if(self StanceButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+gostand")
+    {
+        if(self JumpButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+actionslot 1")
+    {
+        if(self ActionSlotOneButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+actionslot 2")
+    {
+        if(self ActionSlotTwoButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+actionslot 3")
+    {
+        if(self ActionSlotThreeButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
+    if(button == "+actionslot 4")
+    {
+        if(self ActionSlotFourButtonPressed())
+        {
+            self notify(cmd);
+        }
+    }
 }
 
 create_notify()
