@@ -8,13 +8,13 @@ IsInMenu() {
     return self.menu.isopen;
 }
 
-CreateMenu(menu, parent) {
+create_menu(menu, parent) {
     self.menu.text[menu] = [];
     self.menu.bool[menu] = [];
     self.menu.parent[menu] = parent;
 }
 
-AddOption(menu, text, func, bool, input, input2) {
+add_option(menu, text, func, bool, input, input2) {
     index = self.menu.text[menu].size;
     if(isdefined(func))
         self.menu.func[menu][index] = func;
@@ -32,7 +32,7 @@ AddOption(menu, text, func, bool, input, input2) {
     self.menu.slidertype[menu][index] = "none";
 }
 
-AddSlider(menu, text, func, pers, min, max, amount) {
+add_slider(menu, text, func, pers, min, max, amount) {
     index = self.menu.text[menu].size;
     if(isdefined(func))
         self.menu.func[menu][index] = func;
@@ -137,7 +137,7 @@ AddUniqueWeaponDvarSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddDvarSlider(menu, text, func, dvar, min, max, amount) {
+add_dvar_slider(menu, text, func, dvar, min, max, amount) {
     index = self.menu.text[menu].size;
     self.menu.bool[menu][index] = "<" + GetDvarFloat(dvar) + ">";
     if(isdefined(func))
@@ -199,7 +199,7 @@ AddBoolDvarSlider(menu, text, func, dvar, min, max, amount) {
     self.menu.slidertype[menu][index] = "dvar";
 }
 
-AddArraySlider(menu, text, func, array, arrayname) {
+add_array_slider(menu, text, func, array, arrayname) {
     index = self.menu.text[menu].size;
     if(!isdefined(level.arrayscrolls))
         level.arrayscrolls = [];

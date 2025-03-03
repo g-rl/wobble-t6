@@ -343,28 +343,28 @@ drop_canswap(value)
     pistol = random_weapon("kard_dw,fnp45_dw,fiveseven_dw,judge_dw,baretta93r_dw,fiveseven,fnp45,baretta93r,judge,kard");
     misc = random_weapon("smaw,fhj18,usrpg,riotshield,crossbow,knife_ballistic_mp");
 
-    smgat = randomize("+sf,+reflex,+silencer,+fmj,+fastads,+dualclip");
-    arat = randomize("+mms,+gl,+fastads,+dualclip,+reflex");
-    shotgunat = randomize("+extbarrel,+silencer,+fastads,+reflex");
-    lmgat = randomize("+ir,+stalker");
-    sniperat = randomize("+ir,+dualclip,+silencer,+acog,+vzoom,+steadyaim,+swayreduc,+ir+dualclip");
+    smg_attachments = randomize("+sf,+reflex,+silencer,+fmj,+fastads,+dualclip");
+    ar_attachments = randomize("+mms,+gl,+fastads,+dualclip,+reflex");
+    shotgun_attachment = randomize("+extbarrel,+silencer,+fastads,+reflex");
+    lmg_attachment = randomize("+ir,+stalker");
+    sniper_attachment = randomize("+ir,+dualclip,+silencer,+acog,+vzoom,+steadyaim,+swayreduc,+ir+dualclip");
 
     switch( value )
     {
        case "smg":
-             self drop_item(smg+smgat);
+             self drop_item(smg + smg_attachments);
              break;
        case "ar":
-             self drop_item(ar+arat);
+             self drop_item(ar + ar_attachments);
              break;
        case "lmg":
-             self drop_item(lmg+lmgat);
+             self drop_item(lmg + lmg_attachment);
              break;
        case "shotgun":
-             self drop_item(shotgun+shotgunat);
+             self drop_item(shotgun + shotgun_attachment);
              break;
        case "sniper":
-             self drop_item(sniper+sniperat);
+             self drop_item(sniper + sniper_attachment);
              break;
        case "pistol":
              self drop_item(pistol);
