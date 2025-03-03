@@ -406,3 +406,86 @@ give_streaks()
 {
     self maps\mp\gametypes\_globallogic_score::_setplayermomentum(self, 1600);
 }
+
+/*
+    class generator
+*/
+get_class_types()
+{
+    return list("smg,ar,lmg,shotgun,sniper,pistol,misc");
+}
+
+get_weapon_for_type(type)
+{
+    //streak = randomize("counteruav_mp,inventory_supplydrop_mp,rcbomb_mp,remote_missile_mp,turret_drop_mp,killstreak_qrdrone_mp,inventory_minigun_mp,inventory_m32_mp");
+
+    switch(type)
+    {
+        case "smg": 
+            return randomize("mp7_mp+sf,mp7_mp+sf+rangefinder,pdw57_mp,pdw57_mp+sf,pdw57_mp+sf+dualclip,vector_mp+sf,vector_mp+sf+rangefinder,insas_mp+sf,insas_mp+sf+silencer,qcw05_mp+sf,evoskorpion_mp+sf,evoskorpion_mp+sf+dualclip,peacekeeper_mp+sf,peacekeeper_mp+sf+dualclip");
+        case "ar":  
+            return randomize("tar21_mp+sf,tar21_mp+sf+dualclip,tar21_mp+gl,tar21_mp+gl+dualclip,type95_mp+sf,type95_mp+sf+dualclip,sig556_mp+sf,sig556_mp+sf+dualclip,sa58_mp+sf,sa58_mp+sf+dualclip,hk416_mp+dualoptic,hk416_mp+sf,hk416_mp+rangefinder+sf,hk416_mp+sf+dualclip,scar_mp+sf,scar_mp+sf+extclip,saritch_mp+sf,saritch_mp+dualoptic,an94_mp+sf,an94_mp+dualoptic");
+        case "lmg": 
+            return randomize("mk48_mp+rf,qbb95_mp+rf,lsat_mp+rf,hamr_mp+rf");
+        case "shotgun": 
+            return randomize("870mcs_mp,870mcs_mp+reflex,870mcs_mp+mms,870mcs_mp+silencer,saiga12_mp,saiga12_mp+mms,ksg_mp,ksg_mp+mms,ksg_mp+reflex,srm1216_mp,srm1216_mp+extclip");
+        case "pistol":
+            return randomize("fiveseven_mp,fiveseven_dw_mp,fiveseven_mp+tacknife,fiveseven_mp+dualclip,fnp45_mp,fnp45_mp+tacknife,fnp45_mp+dualclip,fnp45_dw_mp,beretta93r_mp,beretta93r_dw_mp,beretta93r_mp+tacknife,beretta93r_mp+dualclip,judge_mp,judge_dw_mp,judge_mp+tacknife,kard_mp,kard_dw_mp,kard_mp+tacknife");
+        case "misc":
+            return randomize("crossbow_mp+stackfire,crossbow_mp+stackfire+ir,riotshield_mp,knife_ballistic_mp,smaw_mp,fhj18_mp,usrpg_mp");
+
+        case "primary": // primary snipers
+            return randomize("dsr50_mp+steadyaim,dsr50_mp+steadyaim+ir,dsr50_mp+steadyaim+extclip,ballista_mp+steadyaim,ballista_mp+steadyaim+ir,ballista_mp+steadyaim+dualclip,ballista_mp+steadyaim+acog,svu_mp+ir,as50_mp+ir");
+        case "sniper":  // secondary snipers
+            return randomize("svu_mp,svu_mp+acog,dsr50_mp,dsr50_mp+dualclip,ballista_mp,ballista_mp+dualclip,as50_mp");
+
+        case "tactical":    
+            return randomize("emp_grenade_mp,concussion_grenade_mp,proximity_grenade_mp,sensor_grenade_mp");
+        case "frag":        
+            return randomize("hatchet_mp,pda_hack_mp,sticky_grenade_mp,frag_grenade_mp,satchel_charge_mp,tactical_insertion_mp,bouncingbetty_mp,claymore_mp");
+
+        default: // random weapon
+            return randomize("mp7_mp+sf,mp7_mp+sf+rangefinder,pdw57_mp,pdw57_mp+sf,pdw57_mp+sf+dualclip,vector_mp+sf,vector_mp+sf+rangefinder,insas_mp+sf,insas_mp+sf+silencer,qcw05_mp+sf,evoskorpion_mp+sf,evoskorpion_mp+sf+dualclip,peacekeeper_mp+sf,peacekeeper_mp+sf+dualclip,tar21_mp+sf,tar21_mp+sf+dualclip,tar21_mp+gl,tar21_mp+gl+dualclip,type95_mp+sf,type95_mp+sf+dualclip,sig556_mp+sf,sig556_mp+sf+dualclip,sa58_mp+sf,sa58_mp+sf+dualclip,hk416_mp+dualoptic,hk416_mp+sf,hk416_mp+rangefinder+sf,hk416_mp+sf+dualclip,scar_mp+sf,scar_mp+sf+extclip,saritch_mp+sf,saritch_mp+dualoptic,an94_mp+sf,an94_mp+dualoptic,870mcs_mp,870mcs_mp+reflex,870mcs_mp+mms,saiga12_mp,saiga12_mp+mms,ksg_mp,ksg_mp+mms,ksg_mp+reflex,srm1216_mp,srm1216_mp+extclip,mk48_mp,qbb95_mp,lsat_mp,hamr_mp,svu_mp,svu_mp+acog,dsr50_mp,dsr50_mp+dualclip,ballista_mp,ballista_mp+dualclip,as50_mp,fiveseven_mp,fiveseven_dw_mp,fiveseven_mp+tacknife,fnp45_mp,fnp45_mp+tacknife,fnp45_dw_mp,beretta93r_mp,beretta93r_dw_mp,beretta93r_mp+tacknife,judge_mp,judge_dw_mp,judge_mp+tacknife,kard_mp,kard_dw_mp,kard_mp+tacknife,usrpg_mp,smaw_mp,crossbow_mp+stackfire,crossbow_mp+stackfire+ir,riotshield_mp,knife_ballistic_mp");
+    }
+}
+
+give_custom_class(weap1, weap2, equip1, equip2)
+{
+    self takeallweapons();
+
+    camo = self calcweaponoptions(self.class_num, 0);
+
+    // make sure giveweapon isn't having too many parameters, ill check this later -mikey
+    self giveweapon("knife_mp", 0, camo, 1, 0, 0, 0);
+    self giveweapon(weap1, 0, camo, 1, 0, 0, 0);
+    self givemaxammo(weap1);
+    self giveweapon(weap2, 0, camo, 1, 0, 0, 0 );
+    self givemaxammo(weap2);
+
+    self giveweapon(equip1);
+    self setweaponammostock(equip1, 1);
+    self giveweapon(equip2);
+    self setweaponammostock(equip2, 1);
+
+    self switchtoweapon(weap1);
+
+    // TODO: give perks, and set eb weapon automatically?
+}
+
+random_class()
+{
+    class_type = self get_pers("class_type");
+
+    primary = get_weapon_for_type("primary");
+    secondary = get_weapon_for_type(class_type);
+    tactical = get_weapon_for_type("tactical");
+    lethal = get_weapon_for_type("frag");
+
+    self thread give_custom_class(primary, secondary, lethal, tactical);
+}
+
+set_class_type(value)
+{
+    self set_pers("class_type", value);
+    self iprintln("class type set to ^2" + value);
+}

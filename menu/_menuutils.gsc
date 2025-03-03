@@ -27,7 +27,7 @@ add_option(menu, text, func, bool, input, input2)
         self.menu.bool[menu][index] = bool;
     else
         self.menu.bool[menu][index] = "";
-    if (isdefined(func) && func == ::LoadMenu)
+    if (isdefined(func) && func == ::load_menu)
         self.menu.bool[menu][index] = ">";
     self.menu.text[menu][index] = text;
     self.menu.input[menu][index] = input;
@@ -249,7 +249,7 @@ AddBindSliders(menu, text, func, pers)
     self.menu.slidertype[menu][index] = "bind";
 }
 
-LoadMenu(menu)
+load_menu(menu)
 {
     self scripts\mp\menu\_structure::Structure();
     self.menu.smoothscroll = false;
