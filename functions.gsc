@@ -84,7 +84,7 @@ set_spawnpoint()
 {
     self.pers["spawn_origin"] = self.origin;
     self.pers["spawn_angles"] = self.angles;
-    self iprintln("set ^2spawnpoint");
+    self iprintln("spawnpoint ^2set");
 }
 
 teleport_enemy( player )
