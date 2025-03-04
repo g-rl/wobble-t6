@@ -311,3 +311,8 @@ list(key)
     output = StrTok(key, ",");
     return output;
 }
+
+waitframe()
+{
+    wait 0.05;
+}

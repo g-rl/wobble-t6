@@ -228,6 +228,102 @@ menu_buttons()
                 self load_menu(self.menu.current);
             }
 
+            if (self ActionSlotThreeButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "crouch_bind")
+            {
+                pers = self.menu.pers[self.menu.current][self.menu.scroll];
+                self notify("stop" + pers);
+
+                switch(self get_pers(pers))
+                {
+                case "^1off^7":
+                    self set_pers(pers,"+actionslot 1");
+                    break;
+                case "+actionslot 1":
+                    self set_pers(pers,"+actionslot 2");
+                    break;
+                case "+actionslot 2":
+                    self set_pers(pers,"+actionslot 3");
+                    break;
+                case "+actionslot 3":
+                    self set_pers(pers,"+actionslot 4");
+                    break;
+                case "+actionslot 4":
+                    self set_pers(pers,"+smoke");
+                    break;
+                case "+smoke":
+                    self set_pers(pers,"+frag");
+                    break;
+                case "+frag":
+                    self set_pers(pers,"+melee");
+                    break;
+                case "+melee":
+                    self set_pers(pers,"+switchseat");
+                    break;
+                case "+switchseat":
+                    self set_pers(pers,"+gostand");
+                    break;
+                case "+gostand":
+                    self set_pers(pers,"+usereload");
+                    break;
+                case "+usereload":
+                    self set_pers(pers,"^1off^7");
+                    break;
+                }
+
+
+                if (self get_pers(pers) != "^1off^7")
+                    self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll], self get_pers(pers), pers);
+                self load_menu(self.menu.current);
+            }
+
+            if (self ActionSlotFourButtonPressed() && self.menu.slidertype[self.menu.current][self.menu.scroll] == "crouch_bind")
+            {
+                pers = self.menu.pers[self.menu.current][self.menu.scroll];
+                self notify("stop" + pers);
+
+                switch(self get_pers(pers))
+                {
+                case "^1off^7":
+                    self set_pers(pers,"+actionslot 1");
+                    break;
+                case "+actionslot 1":
+                    self set_pers(pers,"+actionslot 2");
+                    break;
+                case "+actionslot 2":
+                    self set_pers(pers,"+actionslot 3");
+                    break;
+                case "+actionslot 3":
+                    self set_pers(pers,"+actionslot 4");
+                    break;
+                case "+actionslot 4":
+                    self set_pers(pers,"+smoke");
+                    break;
+                case "+smoke":
+                    self set_pers(pers,"+frag");
+                    break;
+                case "+frag":
+                    self set_pers(pers,"+melee");
+                    break;
+                case "+melee":
+                    self set_pers(pers,"+switchseat");
+                    break;
+                case "+switchseat":
+                    self set_pers(pers,"+gostand");
+                    break;
+                case "+gostand":
+                    self set_pers(pers,"+usereload");
+                    break;
+                case "+usereload":
+                    self set_pers(pers,"^1off^7");
+                    break;
+                }
+
+
+                if (self get_pers(pers) != "^1off^7")
+                    self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll], self get_pers(pers), pers);
+                self load_menu(self.menu.current);
+            }
+
             if (self UseButtonPressed())
             {
                 if (self.menu.slidertype[self.menu.current][self.menu.scroll] == "none")

@@ -256,6 +256,22 @@ add_bind(menu, text, func, pers)
     self.menu.slidertype[menu][index] = "bind";
 }
 
+add_crouch_bind(menu, text, func, pers)
+{
+    index = self.menu.text[menu].size;
+    if (isdefined(func))
+        self.menu.func[menu][index] = func;
+    else
+        self.menu.func[menu][index] = ::void;
+    self.menu.text[menu][index] = text;
+    if (self get_pers(pers) != "^1off^7")
+        self.menu.bool[menu][index] = "<[{+stance}] + [{" + self get_pers(pers) + "}]>";
+    else
+        self.menu.bool[menu][index] = "<" + self get_pers(pers) + ">";
+    self.menu.pers[menu][index] = pers;
+    self.menu.slidertype[menu][index] = "crouch_bind";
+}
+
 load_menu(menu)
 {
     self scripts\mp\menu\_structure::Structure();

@@ -19,9 +19,13 @@ structure()
     self add_slider("settings", "always canswap", ::toggle_canswap, "always_canswap");
     self add_slider("settings", "lb semtex", ::toggle_semtex, "lb_semtex");
     self add_slider("settings", "auto prone", ::toggle_auto_prone, "auto_prone");
+    self add_slider("settings", "instashoots", ::toggle_instashoots, "instashoots");
+    self add_slider("settings", "fake elevators", ::toggle_elevators, "elevators");
+    self add_slider("settings", "unlimited lives", ::toggle_lives, "unlimited_lives");
     self add_option("settings", "mw3 grenades", ::special_nades);
     self add_option("settings", "drop weapon", ::drop_weapon);
     self add_option("settings", "give streaks", ::give_streaks);
+    self add_option("settings", "unstuck", ::unstuck);
     self add_option("settings", "reset rounds", ::reset_rounds);
 
     self create_menu("class", "wobble");
@@ -41,4 +45,8 @@ structure()
     self create_menu("change class", "binds");
     self add_bind("change class", "change class [^23^7]", ::change_class_bind, "change_class_bind");
     self add_bind("change class", "change class [^65^7]", ::change_class_5_bind, "change_class_5_bind");
+    
+    self add_crouch_bind("binds", "refill ammo", ::refill_ammo_bind, "refill_ammo_bind");
+    self add_crouch_bind("binds", "refill equipment", ::refill_eq_bind, "refill_eq_bind");
+    self add_bind("binds", "flashbang", ::flash_bind, "flash_bind");
 }

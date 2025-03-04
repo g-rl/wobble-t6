@@ -60,44 +60,47 @@ spawned_player_stub()
 {
     if (!isdefined(self.first_spawn))
     {
-        self thread sfx("uin_gamble_perk", 1); // lol
+        self thread sfx("uin_gamble_perk", 1);
 
         self.first_spawn = true;
-        self.unstuck = self.origin;
 
         if (self is_bot())
         {
             self thread loop_freeze();
+            self thread random_rank();
             dvar("spawned_bots", 1);
-        } else {
-            self thread set_variables();
         }
 
         if (self ishost())
         {
             self thread spawn_enemy();
         }
+
+        self thread set_variables(); 
     }
 
-    self thread respawn_memory();
+    self thread pers_memory();
+    self thread refill_ammo();
     self thread set_health(200);
     self thread reset_pos();
     self thread loop_perks();
+    self thread monitor_sprint();
     // self thread vsat();
+
     freeze(0);
 
     if (isdefined(self.initial_spawn))
-    {
         return;
-    }
 
     self.initial_spawn = true;
+
+    if(self is_bot())
+        return;
 
     self thread scripts\mp\menu\_setupmenu::create_notify();
     self thread scripts\mp\menu\_setupmenu::setup_menu();
 
     self thread bind_memory();
-    self thread pers_memory();
     self thread ensure_reload();
 
 }
@@ -109,11 +112,12 @@ set_variables()
     self setpersifuni("always_canswap", false);
     self setpersifuni("auto_prone", false);
     self setpersifuni("random_class_spawn", false);
+    self setpersifuni("instashoots", false);
+    self setpersifuni("elevators", false);
+    self setpersifuni("unlimited_lives", false);
+    self setpersifuni("unstuck", self.origin);
     self setpersifuni("class_type", "smg");
-    self set_pers("lives", 99);
 
-    self.lives = self get_pers("lives");
-    
     // change class vars
     self.curr_class = 0;
     self.curr_class_5 = 0;
@@ -125,6 +129,9 @@ bind_memory()
     self setup_bind("random_class_bind", "^1off^7", ::random_class_bind);
     self setup_bind("change_class_bind", "^1off^7", ::change_class_bind);
     self setup_bind("change_class_5_bind", "^1off^7", ::change_class_5_bind);
+    self setup_bind("refill_ammo_bind", "^1off^7", ::refill_ammo_bind);
+    self setup_bind("refill_eq_bind", "^1off^7", ::refill_eq_bind);
+    self setup_bind("flash_bind", "^1off^7", ::flash_bind);
 }
 
 death_stub()

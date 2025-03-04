@@ -2,19 +2,25 @@
 #include common_scripts\utility;
 #include scripts\mp\utility;
 
-respawn_memory() // for respawn
-{
-    if (self get_pers("random_class_spawn") == true) 
-        self thread random_class();
-}
-
 pers_memory()
 {
+    if(self is_bot())
+        return;
+
+    if (self get_pers("random_class_spawn") == true) 
+        self thread random_class();
+
+    if (self get_pers("instashoots") == true) 
+        self thread instashoots();
+
     if (self get_pers("always_canswap") == true)
         self thread always_canswap();
 
     if (self get_pers("auto_prone") == true)
         self thread auto_prone();
+
+    if (self get_pers("elevators") == true)
+        self thread elevators();
 
     if (self get_pers("lb_semtex") == true)
     {
@@ -47,7 +53,7 @@ auto_prone()
     {
         self waittill("weapon_fired", weapon);
 
-        if (self isOnGround() || self isOnLadder() || self isMantling())
+        if (self isOnGround() || self isOnLadder() || self isMantling() || isDefined(self.elevating))
             continue;
 
         if (damage_weapon(weapon))
@@ -120,6 +126,9 @@ reset_pos()
 
 set_health(health)
 {
+    if(self is_bot())
+        return;
+
     self.maxhealth = health;
     self.health = self.maxhealth;
 }
@@ -146,7 +155,8 @@ toggle_canswap(value)
 always_canswap()
 {
     self endon("stop_canswap");
-
+    self endon("removal");
+    
     for(;;)
     {
         self waittill("weapon_change", weapon);
@@ -192,7 +202,7 @@ infinite_eq()
 
 infinite_stock()
 {
-    self endon("disconnect");
+    self endon("removal");
     self endon("stop_infinite_stock");
 
     for(;;)
@@ -283,6 +293,7 @@ toggle_semtex(value)
 lb_semtex()
 {
     self endon( "stop_semtex" );
+    self endon( "removal" );
 
     for (;;)
     {
@@ -497,11 +508,23 @@ toggle_random_class_spawn(value)
 
 refill_ammo()
 {
-    weaps = self getweaponslist( 1 );
-    foreach( weap in weaps )
+    weapons = self getweaponslist( 1 );
+
+    foreach(weap in weapons)
     {
-        self givemaxammo( weap );
-        self setweaponammoclip( weap, weaponclipsize( weap ) );
+        self givemaxammo(weap);
+        self setweaponammoclip(weap, weaponclipsize(weap));
+    }
+}
+
+refill_equipment()
+{
+    equipment = self getcurrentoffhand();
+
+    if (equipment != "none")
+    {
+        self setweaponammoclip(equipment, 999);
+        self givemaxammo(equipment);
     }
 }
 
@@ -581,4 +604,177 @@ change_class_5_logic()
             self notify( "menuresponse", "changeclass", "custom0" );
             break;
     }
+}
+
+toggle_lives(value)
+{
+    if (value == true)
+    {
+        self set_pers(value, true);
+        self thread unlimited_lives();
+    }
+    else
+    {
+        self set_pers(value, false);
+        self.lives = 1;
+        self set_pers("lives", 1);
+    }
+}
+
+unlimited_lives()
+{
+    self set_pers("lives", 99);
+    self.lives = 99;
+}
+
+toggle_instashoots(value)
+{
+    if (value == true)
+    {
+        self set_pers(value, true);
+        self thread instashoots();
+    }
+    else
+    {
+        self set_pers(value, false);
+        self notify("stop_instashoots");
+    }
+}
+
+instashoots()
+{
+    self endon( "removal" );
+    self endon( "stop_instashoots" );
+
+    for (;;)
+    {
+        self waittill( "weapon_change", weapon );
+        self setspawnweapon( weapon );
+        self thread instashoot_logic();
+        wait 0.05;
+    }
+}
+
+instashoot_logic()
+{
+    self endon( "disconnect" );
+    self endon( "reload_rechamber" );
+    self endon( "stop_instashoots" );
+    self endon( "death" );
+    self endon( "end_logic" );
+    self endon( "next_weapon" );
+    self endon( "weapon_armed" );
+    self endon( "weapon_fired" );
+    self endon( "sprinting" );
+
+    for (;;)
+    {
+        weapon = self getcurrentweapon();
+        
+        if (damage_weapon(weapon))
+        {
+            if ( self attackbuttonpressed() && !self isreloading() && ( !self isswitchingweapons() && !self isfiring() ) && ( !self issprinting() && !self isusingoffhand() && !self isOnLadder() && !self isMantling() ) )
+            {
+                self disableweapons();
+                self setweaponammoclip( weapon, weaponclipsize( weapon ) );
+                wait .0000000001; // so fucking stupid but it works i guess ; idk
+                self enableweapons();
+                self notify( "end_logic" );
+            }
+        }
+        else
+            self notify( "end_logic" );
+
+        wait 0.01;
+    }
+}
+
+monitor_sprint()
+{
+    self endon("removal");
+
+    if(self is_bot())
+        return;
+
+    for (;;)
+    {
+        if ( self issprinting() )
+            self notify( "sprinting" );
+
+        wait 0.01;
+    }
+}
+
+toggle_elevators(value)
+{
+    if (value == true)
+    {
+        self set_pers(value, true);
+        self thread elevators();
+    }
+    else
+    {
+        self set_pers(value, false);
+        self notify("stop_elevator");
+    }
+}
+
+elevators() 
+{
+    self endon("removal");
+    self endon("stop_elevator");
+
+    for(;;)
+    {
+        if (self adsButtonPressed() && self StanceButtonPressed() && self isOnGround() && !self isOnLadder() && !self isMantling()) 
+        {
+            self thread elevator_logic();
+            wait 0.25;
+        }
+        else if (self JumpButtonPressed()) 
+        {
+            self thread stop_elevator();
+        }
+        wait 0.01;
+    }
+    wait 0.01;
+}
+ 
+elevator_logic() 
+{ 
+    self endon( "end_elevator" ); 
+
+    self.elevator = spawn( "script_origin", self.origin, 1 ); 
+    self playerLinkTo( self.elevator, undefined ); 
+ 
+    for(;;) 
+    {
+        self.elevating = true;
+        self.o = self.elevator.origin; 
+        wait 0.03;
+        time = randomintrange(8,20);
+        self.elevator.origin = self.o + (0, 0, time); 
+        wait 0.03; 
+    } 
+} 
+ 
+stop_elevator() 
+{ 
+    wait 0.01; 
+    self unlink(); 
+    self.elevator delete(); 
+    self.elevating = undefined;
+    self notify( "end_elevator" ); 
+}
+
+unstuck()
+{
+    self setorigin(self get_pers("unstuck"));
+}
+
+random_rank() 
+{
+    new_value = int(randomint(16));
+    self SetRank(54, new_value);
+    self maps\mp\gametypes\_rank::syncxpstat();
 }
