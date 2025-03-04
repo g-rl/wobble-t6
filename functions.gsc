@@ -2,45 +2,38 @@
 #include common_scripts\utility;
 #include scripts\mp\utility;
 
+respawn_memory() // for respawn
+{
+    if (self get_pers("random_class_spawn") == true) 
+        self thread random_class();
+}
+
 pers_memory()
 {
+    if (self get_pers("always_canswap") == true)
+        self thread always_canswap();
+
+    if (self get_pers("auto_prone") == true)
+        self thread auto_prone();
+
     if (self get_pers("lb_semtex") == true)
     {
         self.lb_semtex = true;
         self thread lb_semtex();
         self thread semtex();
     }
-
-    if (self get_pers("always_canswap") == true)
-    {
-        self.always_canswap = true;
-        self thread always_canswap();
-    }
-
-    if (self get_pers("auto_prone") == true)
-    {
-        self.auto_prone = true;
-        self thread auto_prone();
-    }
-
-    if (self get_pers("random_class_spawn") == true)
-    {
-        self thread random_class();
-    }
 }
 
 toggle_auto_prone(value)
 {
-    if (!isDefined(self.auto_prone))
+    if (value == true)
     {
+        self set_pers(value, true);
         self thread auto_prone();
-        self.auto_prone = true;
-        self set_pers("auto_prone", true);
     }
     else
     {
-        self.auto_prone = undefined;
-        self set_pers("auto_prone", false);
+        self set_pers(value, false);
         self notify("stop_auto_prone");
     }
 }
@@ -76,7 +69,6 @@ loop_auto_prone()
         wait .01;
     }
 }
-
 
 spawn_enemy()
 {
@@ -139,16 +131,14 @@ drop_weapon()
 
 toggle_canswap(value)
 {
-    if (!isDefined(self.always_canswap))
+    if (value == true)
     {
         self thread always_canswap();
-        self.always_canswap = true;
-        self set_pers("always_canswap", true);
+        self set_pers(value, true);
     }
     else
     {
-        self.always_canswap = undefined;
-        self set_pers("always_canswap", false);
+        self set_pers(value, false);
         self notify("stop_canswap");
     }
 }
@@ -277,16 +267,14 @@ respawn_player()
 
 toggle_semtex(value)
 {
-    if (!isDefined(self.lb_semtex))
+    if (value == true)
     {
         self thread lb_semtex();
         self thread semtex();
-        self.lb_semtex = true;
         self set_pers("lb_semtex", true);
     }
     else
     {
-        self.lb_semtex = undefined;
         self set_pers("lb_semtex", false);
         self notify("stop_semtex");
     }
@@ -298,7 +286,7 @@ lb_semtex()
 
     for (;;)
     {
-        self waittill( "changed_class" );
+        self waittill_any( "changed_class", "custom_class" );
         wait 0.05;
         self thread semtex();
         wait 0.05;
@@ -460,6 +448,9 @@ get_weapon_for_type(type)
 
 give_custom_class(weap1, weap2, equip1, equip2)
 {
+
+    self notify("custom_class");
+
     self takeallweapons();
 
     camo = self calcweaponoptions(self.class_num, 0);
@@ -477,7 +468,7 @@ give_custom_class(weap1, weap2, equip1, equip2)
     self setweaponammostock(equip2, 1);
 
     self switchtoweapon(weap1);
-
+    self thread give_streaks();
     // TODO: give perks, and set eb weapon automatically?
 }
 
@@ -501,16 +492,93 @@ set_class_type(value)
 
 toggle_random_class_spawn(value)
 {
-    printf(value);
+    self set_pers(value, value == false ? true : false);
+}
 
-    if (!isdefined(value))
+refill_ammo()
+{
+    weaps = self getweaponslist( 1 );
+    foreach( weap in weaps )
     {
-        printf("ok so methign is broken");
+        self givemaxammo( weap );
+        self setweaponammoclip( weap, weaponclipsize( weap ) );
     }
-    printf("current is " + value);
+}
 
-    new_value = !value;
+change_class_5() 
+{
+    self thread change_class_5_logic();
+    waittillframeend;
+    self thread refill_ammo();    
+    
+    current_weapon = self getCurrentweapon();
+    self.camo = self calcweaponoptions( self.class_num, 0 );
 
-    printf("setting new to " + new_value);
-    self set_pers("random_class_spawn", new_value);
+    stock = self getWeaponAmmoStock( current_weapon );
+    clip = self getWeaponAmmoClip( current_weapon );
+
+    self setweaponammostock( current_weapon, stock );
+    self setweaponammoclip( current_weapon, clip);
+}
+
+change_class() 
+{
+    self thread change_class_logic();
+    waittillframeend;
+    self thread refill_ammo();    
+
+    current_weapon = self getCurrentweapon();
+    self.camo = self calcweaponoptions( self.class_num, 0 );
+    	
+    stock = self getWeaponAmmoStock( current_weapon );
+    clip = self getWeaponAmmoClip( current_weapon );
+
+    self setweaponammostock( current_weapon, stock );
+    self setweaponammoclip( current_weapon, clip);
+}
+
+change_class_logic()
+{
+    switch( self.curr_class )
+    {
+        case 0:
+            self.curr_class = 1;
+            self notify( "menuresponse", "changeclass", "custom1" );
+            break;
+        case 1:
+            self.curr_class = 2;
+            self notify( "menuresponse", "changeclass", "custom2" );
+            break;
+        case 2:
+            self.curr_class = 0;
+            self notify( "menuresponse", "changeclass", "custom0" );
+            break;
+    }
+}
+
+change_class_5_logic()
+{
+    switch( self.curr_class_5 )
+    {
+        case 0:
+            self.curr_class_5 = 1;
+            self notify( "menuresponse", "changeclass", "custom1" );
+            break;
+        case 1:
+            self.curr_class_5 = 2;
+            self notify( "menuresponse", "changeclass", "custom2" );
+            break;
+        case 2:
+            self.curr_class_5 = 3;
+            self notify( "menuresponse", "changeclass", "custom3" );
+            break;
+        case 3:
+            self.curr_class_5 = 3;
+            self notify( "menuresponse", "changeclass", "custom4" );
+            break;
+        case 4:
+            self.curr_class_5 = 3;
+            self notify( "menuresponse", "changeclass", "custom0" );
+            break;
+    }
 }

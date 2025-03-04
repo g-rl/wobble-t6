@@ -1,6 +1,7 @@
 #include scripts\mp\menu\_menuutils;
 #include scripts\mp\utility;
 #include scripts\mp\functions;
+#include scripts\mp\binds;
 
 structure()
 {
@@ -11,7 +12,7 @@ structure()
     self add_option("wobble", "settings", ::load_menu, undefined, "settings");
     self add_option("wobble", "class generator", ::load_menu, undefined, "class");
     self add_option("wobble", "position", ::load_menu, undefined, "position");
-    // self add_option("wobble", "binds", ::load_menu, undefined, "binds");
+    self add_option("wobble", "binds", ::load_menu, undefined, "binds");
 
     self create_menu("settings", "wobble");
     self add_array_slider("settings", "drop canswap", ::drop_canswap, get_class_types(), "canswap_slider");
@@ -27,11 +28,17 @@ structure()
     self add_array_slider("class", "class type", ::set_class_type, get_class_types(), "class_type");
     self add_option("class", "give random class", ::random_class);
     self add_slider("class", "random class on spawn", ::toggle_random_class_spawn, "random_class_spawn");
+    self add_bind("class", "random class bind", ::random_class_bind, "random_class_bind");
 
     self create_menu("position", "wobble");
     self add_option("position", "set spawnpoint", ::set_spawnpoint);
     self add_option("position", "teleport enemies", ::teleport_enemy);
 
-    // self create_menu("binds", "wobble");
-    // self add_option("binds", "void", ::void);
+    self create_menu("binds", "wobble");
+    self add_option("binds", "change class", ::load_menu, undefined, "change class");
+
+    // change class stuff
+    self create_menu("change class", "binds");
+    self add_bind("change class", "change class [^23^7]", ::change_class_bind, "change_class_bind");
+    self add_bind("change class", "change class [^65^7]", ::change_class_5_bind, "change_class_5_bind");
 }

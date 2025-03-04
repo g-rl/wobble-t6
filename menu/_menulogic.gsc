@@ -133,7 +133,7 @@ menu_buttons()
 
                 switch(self get_pers(pers))
                 {
-                case "^1OFF^7":
+                case "^1off^7":
                     self set_pers(pers,"+actionslot 1");
                     break;
                 case "+actionslot 1":
@@ -167,12 +167,12 @@ menu_buttons()
                     self set_pers(pers,"+usereload");
                     break;
                 case "+usereload":
-                    self set_pers(pers,"^1OFF^7");
+                    self set_pers(pers,"^1off^7");
                     break;
                 }
 
 
-                if (self get_pers(pers) != "^1OFF^7")
+                if (self get_pers(pers) != "^1off^7")
                     self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll], self get_pers(pers), pers);
                 self load_menu(self.menu.current);
             }
@@ -184,7 +184,7 @@ menu_buttons()
 
                 switch(self get_pers(pers))
                 {
-                case "^1OFF^7":
+                case "^1off^7":
                     self set_pers(pers,"+actionslot 1");
                     break;
                 case "+actionslot 1":
@@ -218,12 +218,12 @@ menu_buttons()
                     self set_pers(pers,"+usereload");
                     break;
                 case "+usereload":
-                    self set_pers(pers,"^1OFF^7");
+                    self set_pers(pers,"^1off^7");
                     break;
                 }
 
 
-                if (self get_pers(pers) != "^1OFF^7")
+                if (self get_pers(pers) != "^1off^7")
                     self ExecuteFunction(self.menu.func[self.menu.current][self.menu.scroll], self get_pers(pers), pers);
                 self load_menu(self.menu.current);
             }
@@ -280,14 +280,14 @@ UpdateScroll()
         for (i = 0; i < 8; i++)
         {
             if (isdefined(self.menu.text[self.menu.current][i] ))
-                self.hud["text"][i] set_safe_text(self, self.menu.text[self.menu.current][i]);
+                self.hud["text"][i] set_safe_text(self.menu.text[self.menu.current][i]);
             else
-                self.hud["text"][i] set_safe_text(self, "");
+                self.hud["text"][i] set_safe_text("");
 
             if (isdefined(self.menu.bool[self.menu.current][i]))
-                self.hud["bool_text"][i] set_safe_text(self, self.menu.bool[self.menu.current][i]);
+                self.hud["bool_text"][i] set_safe_text(self.menu.bool[self.menu.current][i]);
             else
-                self.hud["bool_text"][i] set_safe_text(self, "");
+                self.hud["bool_text"][i] set_safe_text("");
         }
 
         self.hud["scroll"].y = -63 + (16 * self.menu.scroll);
@@ -299,14 +299,14 @@ UpdateScroll()
         for (i = self.menu.scroll - 4; i < self.menu.scroll + 4; i++)
         {
             if (isdefined(self.menu.text[self.menu.current][i]))
-                self.hud["text"][index] set_safe_text(self, self.menu.text[self.menu.current][i]);
+                self.hud["text"][index] set_safe_text(self.menu.text[self.menu.current][i]);
             else
-                self.hud["text"][index] set_safe_text(self, "");
+                self.hud["text"][index] set_safe_text("");
 
             if (isdefined(self.menu.bool[self.menu.current][i]))
-                self.hud["bool_text"][index] set_safe_text(self, self.menu.bool[self.menu.current][i]);
+                self.hud["bool_text"][index] set_safe_text(self.menu.bool[self.menu.current][i]);
             else
-                self.hud["bool_text"][i] set_safe_text(self, "");
+                self.hud["bool_text"][i] set_safe_text("");
 
             index++;
         }
@@ -318,12 +318,12 @@ UpdateScroll()
     {
         for (i = 0; i < 8; i++)
         {
-            self.hud["text"][i] set_safe_text(self, self.menu.text[self.menu.current][self.menu.text[self.menu.current].size + i - 8]);
-            self.hud["bool_text"][i] set_safe_text(self, self.menu.bool[self.menu.current][self.menu.bool[self.menu.current].size + i - 8]);
+            self.hud["text"][i] set_safe_text(self.menu.text[self.menu.current][self.menu.text[self.menu.current].size + i - 8]);
+            self.hud["bool_text"][i] set_safe_text(self.menu.bool[self.menu.current][self.menu.bool[self.menu.current].size + i - 8]);
         }
 
         self.hud["scroll"].y = -63 + (16 * (self.menu.scroll - self.menu.text[self.menu.current].size + 8));
     }
 
-    self.hud["title"] set_safe_text(self, self.menu.current + " - " + (self.menu.scroll + 1) + "/" + self.menu.text[self.menu.current].size + "");
+    self.hud["title"] set_safe_text(self.menu.current + " - " + (self.menu.scroll + 1) + "/" + self.menu.text[self.menu.current].size + "");
 }

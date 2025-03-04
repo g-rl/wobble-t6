@@ -4,7 +4,7 @@
 #include scripts\mp\utility;
 #include scripts\mp\menu\_overflow;
 
-IsInMenu()
+in_menu()
 {
     return self.menu.isopen;
 }
@@ -240,7 +240,7 @@ add_array_slider(menu, text, func, array, arrayname)
     self.menu.slidertype[menu][index] = "array";
 }
 
-AddBindSliders(menu, text, func, pers)
+add_bind(menu, text, func, pers)
 {
     index = self.menu.text[menu].size;
     if (isdefined(func))
@@ -248,7 +248,7 @@ AddBindSliders(menu, text, func, pers)
     else
         self.menu.func[menu][index] = ::void;
     self.menu.text[menu][index] = text;
-    if (self get_pers(pers) != "^1OFF^7")
+    if (self get_pers(pers) != "^1off^7")
         self.menu.bool[menu][index] = "<[{" + self get_pers(pers) + "}]>";
     else
         self.menu.bool[menu][index] = "<" + self get_pers(pers) + ">";
@@ -261,7 +261,7 @@ load_menu(menu)
     self scripts\mp\menu\_structure::Structure();
     self.menu.smoothscroll = false;
 
-    if (self IsInMenu())
+    if (self in_menu())
         self DestroyMenuHud();
 
     self.menu.current = menu;
@@ -329,7 +329,7 @@ CreateMenuHud()
     {
         self.hud["text"][i] = self create_text("default", 1, "LEFT", "CENTER", 63, -64 + (i * 16), self.menu.color["white"], 6, 1, "Option " + (i + 1));
 
-        self.hud["bool_text"][i] = self create_text("default", 1, "RIGHT", "CENTER", 232, -64 + (i * 16), self.menu.color["white"], 6, 1, "<^1OFF^7>");
+        self.hud["bool_text"][i] = self create_text("default", 1, "RIGHT", "CENTER", 232, -64 + (i * 16), self.menu.color["white"], 6, 1, "<^1off^7>");
     }
 }
 

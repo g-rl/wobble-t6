@@ -8,9 +8,11 @@
 // custom script includes
 #include scripts\mp\functions;
 #include scripts\mp\utility;
+#include scripts\mp\binds;
 
 init()
 {
+    level thread scripts\mp\menu\_overflow::overflow_fix_init();
     wobble_init();
     level thread on_connect();
 }
@@ -23,7 +25,6 @@ on_connect()
     {
         level waittill("connected", player);
         player thread on_event();
-        //player thread respawn_player();
         player.matchbonus = randomintrange(0,619);
     }
 }
@@ -60,9 +61,6 @@ spawned_player_stub()
     if (!isdefined(self.first_spawn))
     {
         self thread sfx("uin_gamble_perk", 1); // lol
-        self thread set_variables();
-
-        //self thread test_check();
 
         self.first_spawn = true;
         self.unstuck = self.origin;
@@ -71,6 +69,8 @@ spawned_player_stub()
         {
             self thread loop_freeze();
             dvar("spawned_bots", 1);
+        } else {
+            self thread set_variables();
         }
 
         if (self ishost())
@@ -79,26 +79,27 @@ spawned_player_stub()
         }
     }
 
+    self thread respawn_memory();
+    self thread set_health(200);
+    self thread reset_pos();
+    self thread loop_perks();
+    // self thread vsat();
+    freeze(0);
+
     if (isdefined(self.initial_spawn))
     {
         return;
     }
+
     self.initial_spawn = true;
 
-    // setup menu
-    self scripts\mp\menu\_overflow::overflow_fix();
     self thread scripts\mp\menu\_setupmenu::create_notify();
     self thread scripts\mp\menu\_setupmenu::setup_menu();
 
-    // other funcs
-    self thread reset_pos();
-    self thread ensure_reload();
-    //self thread vsat(); // TODO
-    self thread set_health(200);
-    self thread loop_perks();
+    self thread bind_memory();
     self thread pers_memory();
+    self thread ensure_reload();
 
-    freeze(0);
 }
 
 // initialize persistent
@@ -108,6 +109,22 @@ set_variables()
     self setpersifuni("always_canswap", false);
     self setpersifuni("auto_prone", false);
     self setpersifuni("random_class_spawn", false);
+    self setpersifuni("class_type", "smg");
+    self set_pers("lives", 99);
+
+    self.lives = self get_pers("lives");
+    
+    // change class vars
+    self.curr_class = 0;
+    self.curr_class_5 = 0;
+}
+
+// initialize binds
+bind_memory()
+{
+    self setup_bind("random_class_bind", "^1off^7", ::random_class_bind);
+    self setup_bind("change_class_bind", "^1off^7", ::change_class_bind);
+    self setup_bind("change_class_5_bind", "^1off^7", ::change_class_5_bind);
 }
 
 death_stub()
@@ -135,7 +152,7 @@ dvars()
 {
     wobble = [];
     wobble["tag"] = "#^1wobble kit";
-    wobble["thanks"] = "\n^7thanks for playing!\n\nmade by ^6angora";
+    wobble["thanks"] = "\n^7thanks for playing!\n\nmade by ^6angora & mjkzy";
 
     dvar( "allclientdvarsenabled", 1 );
     dvar( "player_useradius", 175 );

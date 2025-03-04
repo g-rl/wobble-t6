@@ -12,7 +12,7 @@ wobble_watermark()
 {
     self.watermark = createfontstring( "default", 1 );
     self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
-    self.watermark set_safe_text( self, "sprint & [{+melee}] to open ^1wobble" );
+    self.watermark set_safe_text( "sprint & [{+melee}] to open ^1wobble" );
     self.watermark.hidewheninkillcam = 1;
 }
 
@@ -116,7 +116,7 @@ create_text(font, fontscale, align, relative, x, y, color, sort, alpha, text)
     textElem.foreground = true;
     textElem.archived = true;
     textElem.type = "text";
-    textElem set_safe_text(self, text);
+    textElem set_safe_text(text);
     return textElem;
 }
 
