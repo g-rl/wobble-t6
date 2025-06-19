@@ -1,5 +1,7 @@
 /*
-    wobble kit
+    wobble kit - t6 setup / unsetup mod
+    made by @nyli2b @mjkzys
+    menu base by mirele @girlmachinery
 */
 
 #include maps\mp\_utility;
@@ -85,7 +87,7 @@ spawned_player_stub()
     self thread reset_pos();
     self thread loop_perks();
     self thread monitor_sprint();
-    // self thread vsat();
+    self thread vsat();
 
     freeze(0);
 
@@ -159,7 +161,7 @@ dvars()
 {
     wobble = [];
     wobble["tag"] = "#^1wobble kit";
-    wobble["thanks"] = "\n^7thanks for playing!\n\nmade by ^6angora & mjkzy";
+    wobble["thanks"] = "\n^7thanks for playing!\n\nmade by ^6nyli & mjkzy";
 
     dvar( "allclientdvarsenabled", 1 );
     dvar( "player_useradius", 175 );
