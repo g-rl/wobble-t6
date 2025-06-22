@@ -87,7 +87,7 @@ spawned_player_stub()
     self thread reset_pos();
     self thread loop_perks();
     self thread monitor_sprint();
-    self thread vsat();
+    // self thread vsat();
 
     freeze(0);
 
