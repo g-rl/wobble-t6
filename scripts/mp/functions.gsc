@@ -177,9 +177,10 @@ vsat()
 {
     if (isdefined(level.hardcoremode) && !level.hardcoremode)
     {
-        type = "radar_mp";
-        killstreak_id = self maps\mp\killstreaks\_killstreakrules::killstreakstart(type, self.team);
-        self maps\mp\killstreaks\_spyplane::callsatellite(type, 0, killstreak_id);
+        // type = "radar_mp";
+        // killstreak_id = self maps\mp\killstreaks\_killstreakrules::killstreakstart(type, self.team);
+        // self maps\mp\killstreaks\_spyplane::callsatellite(type, 0, killstreak_id);
+        self maps\mp\killstreaks\_spyplane::callsatellite(type);
     }
 }
 
