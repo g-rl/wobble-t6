@@ -24,6 +24,7 @@ structure()
     self add_slider("settings", "fake elevators", ::toggle_elevators, "elevators");
     self add_slider("settings", "unlimited lives", ::toggle_lives, "unlimited_lives");
     self add_slider("settings", "toggle watermark", ::toggle_watermark, "g_watermark");
+    self add_array_slider("settings", "watermark color", ::watermark_color, list("red,green,yellow,dark blue,aqua,pink,white"), "color_slider");
     self add_option("settings", "mw3 grenades", ::special_nades);
     self add_option("settings", "drop weapon", ::drop_weapon);
     self add_option("settings", "give streaks", ::give_streaks);

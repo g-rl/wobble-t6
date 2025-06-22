@@ -16,8 +16,36 @@ wobble_watermark()
     self.watermark destroy(); // destroy then rebuild
     self.watermark = createfontstring( "default", 1 );
     self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
-    self.watermark set_safe_text( "sprint & [{+melee}] to open ^1wobble" );
+    self.watermark set_safe_text( "sprint & [{+melee}] to open " + self get_pers("wm_color") + "wobble" );
     self.watermark.hidewheninkillcam = 1;
+}
+
+watermark_color(color)
+{
+    switch( color )
+    {
+        case "red":
+            self set_pers("wm_color", "^1");
+            break;
+        case "green":
+            self set_pers("wm_color", "^2");
+            break;
+        case "yellow":
+            self set_pers("wm_color", "^3");
+            break;
+        case "dark blue":
+            self set_pers("wm_color", "^4");
+            break;
+        case "aqua":
+            self set_pers("wm_color", "^5");
+            break;
+        case "pink":
+            self set_pers("wm_color", "^6");
+            break;
+        case "white":
+            self set_pers("wm_color", "^7");
+            break;
+    }
 }
 
 set_pers(key, value)

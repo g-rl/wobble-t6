@@ -120,6 +120,7 @@ set_variables()
     self setpersifuni("eq_swaps", false);
     self setpersifuni("g_watermark", false);
     self setpersifuni("unstuck", self.origin);
+    self setpersifuni("wm_color", "^1");
     self setpersifuni("class_type", "smg");
 
     // change class vars
