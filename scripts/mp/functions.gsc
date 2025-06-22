@@ -246,6 +246,27 @@ vsat()
 }
 */
 
+getprevweapon()
+{
+    z = self getweaponslistprimaries();
+    x = self getcurrentweapon();
+
+    for(i = 0 ; i < z.size ; i++)
+    {
+        if (x == z[i])
+        {
+            y = i - 1;
+            if (y < 0)
+            y = z.size - 1;
+
+            if (isdefined(z[y]))
+            return z[y];
+            else
+            return z[0];
+        }
+    }
+}
+
 infinite_eq()
 {
     self endon("removal");
