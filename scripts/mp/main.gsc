@@ -117,6 +117,7 @@ set_variables()
     self setpersifuni("instashoots", false);
     self setpersifuni("elevators", false);
     self setpersifuni("unlimited_lives", false);
+    self setpersifuni("eq_swaps", false);
     self setpersifuni("unstuck", self.origin);
     self setpersifuni("class_type", "smg");
 

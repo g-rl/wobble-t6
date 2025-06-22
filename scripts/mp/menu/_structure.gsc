@@ -19,6 +19,7 @@ structure()
     self add_slider("settings", "always canswap", ::toggle_canswap, "always_canswap");
     self add_slider("settings", "lb semtex", ::toggle_semtex, "lb_semtex");
     self add_slider("settings", "auto prone", ::toggle_auto_prone, "auto_prone");
+    self add_slider("settings", "equipment swaps", ::toggle_eq_swaps, "eq_swaps");
     self add_slider("settings", "instashoots", ::toggle_instashoots, "instashoots");
     self add_slider("settings", "fake elevators", ::toggle_elevators, "elevators");
     self add_slider("settings", "unlimited lives", ::toggle_lives, "unlimited_lives");

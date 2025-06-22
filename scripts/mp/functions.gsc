@@ -22,12 +22,72 @@ pers_memory()
     if (self get_pers("elevators") == true)
         self thread elevators();
 
+    if (self get_pers("eq_swaps") == true)
+        self thread eq_swap_loop();
+
     if (self get_pers("lb_semtex") == true)
     {
         self.lb_semtex = true;
         self thread lb_semtex();
         self thread semtex();
     }
+}
+
+toggle_eq_swaps(value)
+{
+    if (value == true)
+    {
+        self set_pers(value, true);
+        self thread eq_swap_loop();
+    }
+    else
+    {
+        self set_pers(value, false);
+        self notify("stop_eq_swap");
+    }
+}
+
+eq_swap_loop()
+{
+    self endon("stop_eq_swap");
+    self endon("disconnect");
+    level endon("game_ended");
+
+    for(;;)
+    {
+        self waittill("grenade_pullback", grenade);
+
+        if (maps\mp\killstreaks\_killstreaks::iskillstreakweapon(grenade)) // so you can still pull out streaks lol
+            continue;
+
+        self switchto(self getprevweapon());
+    }
+}
+
+switchto(weapon)
+{
+    current = self getcurrentweapon();
+
+    self takeweapongood(current);
+    self giveweapon(weapon);
+    self switchtoweapon(weapon);
+    wait 0.05;
+    self giveweapongood(current);
+}
+
+takeweapongood(gun)
+{
+    self.getgun[gun] = gun;
+    self.getclip[gun] =  self getweaponammoclip(gun);
+    self.getstock[gun] = self getweaponammostock(gun);
+    self takeweapon(gun);
+}
+
+giveweapongood(gun)
+{
+    self giveweapon(self.getgun[gun]);
+    self setweaponammoclip(self.getgun[gun], self.getclip[gun]);
+    self setweaponammostock(self.getgun[gun], self.getstock[gun]);
 }
 
 toggle_auto_prone(value)
