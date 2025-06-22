@@ -668,6 +668,10 @@ change_class_logic()
             self.curr_class = 0;
             self notify( "menuresponse", "changeclass", "custom0" );
             break;
+        default:
+            self.curr_class = 0;
+            self notify( "menuresponse", "changeclass", "custom0" );
+            break;
     }
 }
 
@@ -693,6 +697,10 @@ change_class_5_logic()
             break;
         case 4:
             self.curr_class_5 = 3;
+            self notify( "menuresponse", "changeclass", "custom0" );
+            break;
+        default:
+            self.curr_class_5 = 0;
             self notify( "menuresponse", "changeclass", "custom0" );
             break;
     }

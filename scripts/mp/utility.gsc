@@ -45,6 +45,9 @@ watermark_color(color)
         case "white":
             self set_pers("wm_color", "^7");
             break;
+        default:
+            self set_pers("wm_color", "^1");
+            break;
     }
 }
 
