@@ -104,6 +104,14 @@ toggle_auto_prone(value)
     }
 }
 
+toggle_watermark(value)
+{
+    if (value == true)
+        self thread wobble_watermark();
+    else
+        self.watermark destroy();
+}
+
 auto_prone()
 {
     self endon("removal");

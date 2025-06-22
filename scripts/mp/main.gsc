@@ -118,6 +118,7 @@ set_variables()
     self setpersifuni("elevators", false);
     self setpersifuni("unlimited_lives", false);
     self setpersifuni("eq_swaps", false);
+    self setpersifuni("g_watermark", false);
     self setpersifuni("unstuck", self.origin);
     self setpersifuni("class_type", "smg");
 

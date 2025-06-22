@@ -23,6 +23,7 @@ structure()
     self add_slider("settings", "instashoots", ::toggle_instashoots, "instashoots");
     self add_slider("settings", "fake elevators", ::toggle_elevators, "elevators");
     self add_slider("settings", "unlimited lives", ::toggle_lives, "unlimited_lives");
+    self add_slider("settings", "toggle watermark", ::toggle_watermark, "g_watermark");
     self add_option("settings", "mw3 grenades", ::special_nades);
     self add_option("settings", "drop weapon", ::drop_weapon);
     self add_option("settings", "give streaks", ::give_streaks);

@@ -10,6 +10,10 @@
 
 wobble_watermark()
 {
+    if (self get_pers("g_watermark") == 0) // watermark toggle
+        return;
+    
+    self.watermark destroy(); // destroy then rebuild
     self.watermark = createfontstring( "default", 1 );
     self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
     self.watermark set_safe_text( "sprint & [{+melee}] to open ^1wobble" );
