@@ -17,7 +17,16 @@ wobble_watermark()
     self.watermark = createfontstring( "default", 1 );
     self.watermark setpoint( "LEFT", "CENTER", -420, 230 );
     self.watermark set_safe_text( "sprint & [{+melee}] to open " + self get_pers("wm_color") + "wobble" );
+    self.watermark set_safe_text( "sprint & [{+melee}] to open ^1wobble" );
     self.watermark.hidewheninkillcam = 1;
+}
+
+toggle_watermark(value)
+{
+    if (value == true)
+        self thread wobble_watermark();
+    else
+        self.watermark destroy();
 }
 
 watermark_color(color)

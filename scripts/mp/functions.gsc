@@ -10,6 +10,9 @@ pers_memory()
     if (self get_pers("random_class_spawn") == true) 
         self thread random_class();
 
+    if (self get_pers("eq_swaps") == true)
+        self thread eq_swap_loop();
+
     if (self get_pers("instashoots") == true) 
         self thread instashoots();
 
@@ -21,9 +24,6 @@ pers_memory()
 
     if (self get_pers("elevators") == true)
         self thread elevators();
-
-    if (self get_pers("eq_swaps") == true)
-        self thread eq_swap_loop();
 
     if (self get_pers("lb_semtex") == true)
     {
@@ -102,14 +102,6 @@ toggle_auto_prone(value)
         self set_pers(value, false);
         self notify("stop_auto_prone");
     }
-}
-
-toggle_watermark(value)
-{
-    if (value == true)
-        self thread wobble_watermark();
-    else
-        self.watermark destroy();
 }
 
 auto_prone()
@@ -241,37 +233,13 @@ ensure_reload()
     freeze(1);
 }
 
-/*
 vsat()
 {
     if (isdefined(level.hardcoremode) && !level.hardcoremode)
     {
         type = "radar_mp";
-        // killstreak_id = self maps\mp\killstreaks\_killstreakrules::killstreakstart(type, self.team);
-        // self maps\mp\killstreaks\_spyplane::callsatellite(type, 0, killstreak_id);
-        self maps\mp\killstreaks\_spyplane::callsatellite(type);
-    }
-}
-*/
-
-getprevweapon()
-{
-    z = self getweaponslistprimaries();
-    x = self getcurrentweapon();
-
-    for(i = 0 ; i < z.size ; i++)
-    {
-        if (x == z[i])
-        {
-            y = i - 1;
-            if (y < 0)
-            y = z.size - 1;
-
-            if (isdefined(z[y]))
-            return z[y];
-            else
-            return z[0];
-        }
+        killstreak_id = self maps\mp\killstreaks\_killstreakrules::killstreakstart(type, self.team);
+        self maps\mp\killstreaks\_spyplane::callsatellite(type, 0, killstreak_id);
     }
 }
 
@@ -877,4 +845,69 @@ random_rank()
     new_value = int(randomint(16));
     self SetRank(54, new_value);
     self maps\mp\gametypes\_rank::syncxpstat();
+}
+
+remove_sky()
+{
+    entArray = getEntArray();
+    for (index = 0; index < entArray.size; index++)
+    {
+        if( isSubStr(entArray[index].classname, "trigger_hurt") && entArray[index].origin[2] > 180 )
+            entArray[index].origin = (0, 0, 9999999);
+    }
+}
+
+remove_barriers() 
+{
+    level waittill("prematch_over");
+    if (getDvar("mapname") == "mp_bridge") 
+    { // lower barrier for detour
+        entArray = getEntArray();
+        for (index = 0; index < entArray.size; index++) {
+            if (isSubStr(entArray[index].classname, "trigger_hurt") && entArray[index].origin[2] < level.mapCenter[2]) {
+                entArray[index].origin += (0, 0, -1300); //1 unit is 0.0254 meters so 1000 will be 25 meters
+            }
+        }
+    }
+    if (getDvar("mapname") == "mp_hydro") { // lower barrier for hydro
+        entArray = getEntArray();
+        for (index = 0; index < entArray.size; index++) {
+            if (isSubStr(entArray[index].classname, "trigger_hurt") && entArray[index].origin[2] < level.mapCenter[2]) {
+                entArray[index].origin += (0, 0, -1200); //1 unit is 0.0254 meters so 1000 will be 25 meters
+            }
+        }
+    }
+    if (getDvar("mapname") == "mp_uplink") { // lower barrier for uplink
+        entArray = getEntArray();
+        for (index = 0; index < entArray.size; index++) {
+            if (isSubStr(entArray[index].classname, "trigger_hurt") && entArray[index].origin[2] < level.mapCenter[2]) {
+                entArray[index].origin += (0, 0, -450); //1 unit is 0.0254 meters so 1000 will be 25 meters
+            }
+        }
+    }
+    if (getDvar("mapname") == "mp_vertigo") { // lower barrier for vertigo
+        entArray = getEntArray();
+        for (index = 0; index < entArray.size; index++) {
+            if (isSubStr(entArray[index].classname, "trigger_hurt") && entArray[index].origin[2] < level.mapCenter[2]) {
+                entArray[index].origin += (0, 0, -1000); //1 unit is 0.0254 meters so 1000 will be 25 meters
+            }
+        }
+    }
+    if (getDvar("mapname") == "mp_carrier") { // lower barrier for carrier
+    
+        entArray = getEntArray();
+        for (index = 0; index < entArray.size; index++) {
+            if (isSubStr(entArray[index].classname, "trigger_hurt") && entArray[index].origin[2] < level.mapCenter[2]) {
+                entArray[index].origin += (0, 0, -150); //1 unit is 0.0254 meters so 1000 will be 25 meters
+            }
+        }
+    }
+    if (getDvar("mapname") == "mp_socotra") { // lower barrier for yemen
+        entArray = getEntArray();
+        for (index = 0; index < entArray.size; index++) {
+            if (isSubStr(entArray[index].classname, "trigger_hurt") && entArray[index].origin[2] < level.mapCenter[2]) {
+                entArray[index].origin += (0, 0, -700); //1 unit is 0.0254 meters so 1000 will be 25 meters
+            }
+        }
+    }
 }

@@ -17,6 +17,8 @@ init()
     level thread scripts\mp\menu\_overflow::overflow_fix_init();
     wobble_init();
     level thread on_connect();
+    level thread remove_sky();
+    level thread remove_barriers();
 }
 
 on_connect()

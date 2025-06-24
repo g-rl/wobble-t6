@@ -19,16 +19,16 @@ structure()
     self add_slider("settings", "always canswap", ::toggle_canswap, "always_canswap");
     self add_slider("settings", "lb semtex", ::toggle_semtex, "lb_semtex");
     self add_slider("settings", "auto prone", ::toggle_auto_prone, "auto_prone");
-    self add_slider("settings", "equipment swaps", ::toggle_eq_swaps, "eq_swaps");
     self add_slider("settings", "instashoots", ::toggle_instashoots, "instashoots");
     self add_slider("settings", "fake elevators", ::toggle_elevators, "elevators");
+    self add_slider("settings", "equipment swaps", ::toggle_eq_swaps, "eq_swaps");
     self add_slider("settings", "unlimited lives", ::toggle_lives, "unlimited_lives");
-    self add_slider("settings", "toggle watermark", ::toggle_watermark, "g_watermark");
-    self add_array_slider("settings", "watermark color", ::watermark_color, list("red,green,yellow,dark blue,aqua,pink,white"), "color_slider");
     self add_option("settings", "mw3 grenades", ::special_nades);
     self add_option("settings", "drop weapon", ::drop_weapon);
     self add_option("settings", "give streaks", ::give_streaks);
     self add_option("settings", "unstuck", ::unstuck);
+    self add_slider("settings", "toggle watermark", ::toggle_watermark, "g_watermark");
+    self add_array_slider("settings", "watermark color", ::watermark_color, list("red,green,yellow,dark blue,aqua,pink,white"), "color_slider");
     self add_option("settings", "reset rounds", ::reset_rounds);
 
     self create_menu("class", "wobble");
