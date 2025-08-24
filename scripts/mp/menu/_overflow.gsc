@@ -8,15 +8,15 @@
 
 AddString(string)
 {
-    level.strings = string;
+    level.strings++;
     level notify("string_added");
 }
 
-FixString() 
+FixString()
 {
     self notify("new_string");
     self endon("new_string");
-    while(isDefined(self)) 
+    while(isDefined(self))
     {
         level waittill("overflow_fixed");
         self set_safe_text(self.string);
@@ -24,26 +24,28 @@ FixString()
 }
 
 
-overflow_fix_init() 
+overflow_fix_init()
 {
-    level.strings = [];
+    level.strings = 0;
     level.overflowElem = createServerFontString("default", 1.5);
     level.overflowElem set_safe_text("overflow");
     level.overflowElem.alpha = 0;
     level thread overflowFixMonitor();
 }
 
-OverflowFixMonitor() 
+OverflowFixMonitor()
 {
-    for(;;) 
+    for(;;)
     {
         level waittill("string_added");
-        if(level.strings >= 45) 
+
+        if (level.strings >= 45)
         {
+            level.strings = 0;
             level.overflowElem clearAllTextAfterHudElem();
-            level.strings = [];
             level notify("overflow_fixed");
         }
+
         wait 0.05;
     }
 }
@@ -58,38 +60,38 @@ set_safe_text(text)
 
 OverflowFix()
 {
-	level.test = createServerFontString("default",1.5);
-	level.test setText("xTUL");
-	level.test.alpha = 0;
+    level.test = createServerFontString("default",1.5);
+    level.test setText("xTUL");
+    level.test.alpha = 0;
 
-	for(;;)
-	{
-		level waittill("textset");
-		if(level.result >= 50)
-		{
-			level.test ClearAllTextAfterHudElem();
-			level.result = 0;
-		}
-		wait .1;
-	}
+    for(;;)
+    {
+        level waittill("textset");
+        if(level.result >= 50)
+        {
+            level.test ClearAllTextAfterHudElem();
+            level.result = 0;
+        }
+        wait .1;
+    }
 }
 
 Clear(player)
 {
-        if(self.type == "text")
-                player deleteTextTableEntry(self.textTableIndex);
-               
-        self destroy();
+    if(self.type == "text")
+        player deleteTextTableEntry(self.textTableIndex);
+
+    self destroy();
 }
 
 DeleteTextTableEntry(id)
 {
-        foreach(entry in self.textTable)
+    foreach(entry in self.textTable)
+    {
+        if(entry.id == id)
         {
-                if(entry.id == id)
-                {
-                        entry.id = -1;
-                        entry.stringId = -1;
-                }
+            entry.id = -1;
+            entry.stringId = -1;
         }
+    }
 }
